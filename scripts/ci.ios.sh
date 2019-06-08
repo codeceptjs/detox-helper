@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-pushd test
-run_f "npm run build:ios"
-run_f "npm run e2e:ios-ci"
-popd
+cd test
+npm run build:ios
+npm run e2e:ios-ci
