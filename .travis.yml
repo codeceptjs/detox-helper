@@ -10,7 +10,11 @@ matrix:
     - REACT_NATIVE_VERSION=0.59.4
       PATH=$PATH:~/Library/Python/2.7/bin
     install:
-    - ./scripts/install.ios.sh
+    - npm install -g react-native-cli 
+    - npm install -g detox-cli
+    - export CODE_SIGNING_REQUIRED=NO
+    - brew tap wix/brew
+    - brew install applesimutils --HEAD
     script:
     - ./scripts/ci.ios.sh
   - language: android
@@ -28,8 +32,8 @@ matrix:
     - sys-img-x86-android-26
     - sys-img-x86-android-28
     install:
-    - npm install test
-    - ./scripts/install.android.sh
+    - npm install -g react-native-cli 
+    - npm install -g detox-cli
     script:
     - ./scripts/ci.android.sh
 
