@@ -1,0 +1,27 @@
+{
+  "name": "@codeceptjs/detox-helper",
+  "version": "1.0.0",
+  "description": "Detox helper for CodeceptJS",
+  "main": "Detox.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Codeception/detox-helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Codeception/detox-helper/issues"
+  },
+  "homepage": "https://github.com/Codeception/detox-helper#readme",
+  "dependencies": {
+    "detox": "^12.11.0",
+    "react-native": "^0.59.9"
+  }
+}
