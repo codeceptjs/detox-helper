@@ -19,7 +19,7 @@ matrix:
     - npm install        
     - detox build --configuration ios.sim.release
     script:
-    - CONF=ios.sim.release npx mocha test/Detox_helper_test.js
+    - CONF=ios.sim.release npx mocha Detox_helper_test.js
 
   - language: android
     env:
@@ -45,10 +45,10 @@ matrix:
     # Workaround until react android issue will be fixed - react-native: 0.55
     - mv node_modules/react-native/ReactAndroid/release.gradle node_modules/react-native/ReactAndroid/release.gradle.bak
     - cp extras/release.gradle node_modules/react-native/ReactAndroid/
-    - cat node_modules/react-native/ReactAndroid/
+    - cat node_modules/react-native/ReactAndroid/release.gradle
     - detox build --configuration android.emu.release
     script:
-    - CONF=android.emu.release npx mocha test/Detox_helper_test.js
+    - CONF=android.emu.release npx mocha Detox_helper_test.js
 
 
 before_install:
