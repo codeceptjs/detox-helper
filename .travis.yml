@@ -32,17 +32,6 @@ matrix:
     - ./scripts/install.android.sh
     script:
     - ./scripts/ci.android.sh
-  # Example Projects
-  - language: objective-c
-    os: osx
-    osx_image: xcode10.2
-    env:
-    - REACT_NATIVE_VERSION=0.59.4
-    install:
-    - npm install test
-    - ./scripts/install.ios.sh    
-    script:
-    - ./scripts/ci.ios.sh
 
 before_install:
 - nvm install 10

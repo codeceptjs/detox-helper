@@ -8,6 +8,6 @@ cd test
 # mv node_modules/react-native/ReactAndroid/release.gradle node_modules/react-native/ReactAndroid/release.gradle.bak
 # cp extras/release.gradle node_modules/react-native/ReactAndroid/
 
-npm run build:android
-npm run e2e:android-ci
+detox build --configuration android.emu.release
+detox test --configuration android.emu.release
 

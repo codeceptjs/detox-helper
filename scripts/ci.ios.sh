@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
 cd test
-npm run build:ios
-npm run e2e:ios-ci
+detox build --configuration ios.sim.release
+detox test --configuration ios.sim.release --debug-synchronization
