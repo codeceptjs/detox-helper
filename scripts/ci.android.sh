@@ -3,9 +3,6 @@
 # Approve unapproved SDK licenses
 #  yes | $ANDROID_HOME/tools/bin/sdkmanager 
 
-source $(dirname "$0")/ci.sh
-
-
 pushd test
 # Workaround until react android issue will be fixed - react-native: 0.55
 # mv node_modules/react-native/ReactAndroid/release.gradle node_modules/react-native/ReactAndroid/release.gradle.bak

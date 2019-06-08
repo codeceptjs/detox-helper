@@ -8,19 +8,24 @@ let expect;
 let waitFor;
 
 class Detox extends Helper {
+  
   constructor(config) {
     super(config);
     const platform = require('detox/src/platform');
     platform.set(config.type, config.name);
     detox = require('detox');
     this.device = detox.device;
-    by = detox.by;
-    element = detox.element;
-    expect = detox.expect;
-    waitFor = detox.waitFor;
 
+    this._registerGlobals();
     // override defaults with config
     this._setConfig(config);
+  }
+
+  _registerGlobals() {
+    global.by = by = detox.by;
+    global.element = element = detox.element;
+    global.expect = expect = detox.expect;
+    global.waitFor = waitFor = detox.waitFor;
   }
 
   _validateConfig(config) {
