@@ -28,6 +28,7 @@ matrix:
     - sys-img-x86-android-26
     - sys-img-x86-android-28
     install:
+    - npm install test
     - ./scripts/install.android.sh
     script:
     - ./scripts/ci.android.sh
@@ -38,7 +39,8 @@ matrix:
     env:
     - REACT_NATIVE_VERSION=0.59.4
     install:
-    - ./scripts/install.ios.sh
+    - npm install test
+    - ./scripts/install.ios.sh    
     script:
     - ./scripts/ci.ios.sh
 

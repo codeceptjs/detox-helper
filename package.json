@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Codeception/detox-helper#readme",
   "dependencies": {
     "detox": "^12.11.0",
+    "detox-test": "file:test",
     "react-native": "^0.59.9"
   }
 }
