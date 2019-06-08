@@ -1,0 +1,17 @@
+{
+  "rootDir": "../..",
+  "setupFilesAfterEnv": ["./test/e2e/init.js"],
+  "testEnvironment": "node",
+  "reporters": ["<rootDir>/runners/jest/streamlineReporter"],
+  "verbose": true,
+  "bail": false,
+  "collectCoverageFrom": [
+    "src/**/*.js",
+    "!**/__test/**",
+    "!**/__mocks__/**",
+    "!**/*.mock.js",
+    "!**/*.test.js"
+  ],
+  "coverageDirectory": "test/coverage",
+  "coverageReporters": ["lcov", "html"]
+}

@@ -1,0 +1,46 @@
+language: node_js
+node_js: 8
+
+matrix:
+  include:
+  - language: objective-c
+    os: osx
+    osx_image: xcode10.2
+    env:
+    - REACT_NATIVE_VERSION=0.59.4
+      PATH=$PATH:~/Library/Python/2.7/bin
+    install:
+    - ./scripts/install.ios.sh
+    script:
+    - ./scripts/ci.ios.sh
+  - language: android
+    env:
+    - REACT_NATIVE_VERSION=0.59.4
+    android:
+    components:
+    - tools
+    - platform-tools
+    - build-tools-27.0.3
+    - android-26
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - sys-img-x86-android-26
+    - sys-img-x86-android-28
+    install:
+    - ./scripts/install.android.sh
+    script:
+    - ./scripts/ci.android.sh
+  # Example Projects
+  - language: objective-c
+    os: osx
+    osx_image: xcode10.2
+    env:
+    - REACT_NATIVE_VERSION=0.59.4
+    install:
+    - ./scripts/install.ios.sh
+    script:
+    - ./scripts/demo-projects.ios.sh
+
+before_install:
+- nvm install 10
