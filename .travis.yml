@@ -19,7 +19,7 @@ matrix:
     - npm install        
     - detox build --configuration ios.sim.release
     script:
-    - detox test --configuration ios.sim.release --debug-synchronization
+    - npx mocha run test/Detox_helper_test.js --configuration ios.sim.release --debug-synchronization
 
   - language: android
     env:
@@ -35,16 +35,15 @@ matrix:
     - extra-android-m2repository
     - sys-img-x86-android-26
     - sys-img-x86-android-28
-    before_install:
-    - yes | sdkmanager "platforms;android-28"    
     install:
+    - yes | sdkmanager "platforms;android-28"    
     - npm install -g react-native-cli 
     - npm install -g detox-cli
     - cd test
     - npm install    
     - detox build --configuration android.emu.release
     script:
-    - detox test --configuration android.emu.release
+    - npx mocha run test/Detox_helper_test.js --configuration android.emu.release
 
 
 before_install:

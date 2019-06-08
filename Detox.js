@@ -1,4 +1,4 @@
-const Helper = require('../helper');
+const Helper = require('codeceptjs').helper;
 const path = require('path');
 
 let detox;
@@ -11,14 +11,19 @@ class Detox extends Helper {
   
   constructor(config) {
     super(config);
-    const platform = require('detox/src/platform');
-    platform.set(config.type, config.name);
+    this._setConfig(config);
+    this._registerOptions();
+
     detox = require('detox');
     this.device = detox.device;
-
     this._registerGlobals();
-    // override defaults with config
-    this._setConfig(config);
+  }
+
+  _registerOptions() {
+    if (this.options.configuration) {
+      process.argv.push('--configuration');
+      process.argv.push(this.options.configuration);
+    }
   }
 
   _registerGlobals() {
@@ -50,7 +55,7 @@ class Detox extends Helper {
   }
 
   async _beforeSuite() {
-    const { reuse, launchApp } = this.options;
+    const { reuse, launchApp } = this.options;    
     await detox.init(this.options, { reuse, launchApp });
 
     if (this.options.reloadReactNative) {
