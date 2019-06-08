@@ -1,5 +1,5 @@
 const Detox = require('../Detox');
-let configuration = process.env.configuration || 'android.emu.debug';
+let configuration = process.env.CONF || 'android.emu.debug';
 
 let I;
 

@@ -19,7 +19,7 @@ matrix:
     - npm install        
     - detox build --configuration ios.sim.release
     script:
-    - npx mocha run test/Detox_helper_test.js --configuration ios.sim.release --debug-synchronization
+    - CONF=ios.sim.release npx mocha test/Detox_helper_test.js
 
   - language: android
     env:
@@ -43,7 +43,7 @@ matrix:
     - npm install    
     - detox build --configuration android.emu.release
     script:
-    - npx mocha run test/Detox_helper_test.js --configuration android.emu.release
+    - CONF=android.emu.release npx mocha test/Detox_helper_test.js
 
 
 before_install:
