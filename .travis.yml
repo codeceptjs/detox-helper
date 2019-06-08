@@ -35,6 +35,8 @@ matrix:
     - extra-android-m2repository
     - sys-img-x86-android-26
     - sys-img-x86-android-28
+    before_install:
+    - yes | sdkmanager "platforms;android-28"    
     install:
     - npm install -g react-native-cli 
     - npm install -g detox-cli
