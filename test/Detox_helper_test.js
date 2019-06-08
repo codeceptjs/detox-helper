@@ -7,6 +7,7 @@ describe('Detox', function () {
   // this.retries(1);
   this.timeout(0);
 
+  
   before(() => {
     global.codecept_dir = __dirname;
     I = new Detox({
