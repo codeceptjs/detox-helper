@@ -15,9 +15,10 @@ matrix:
     - export CODE_SIGNING_REQUIRED=NO
     - brew tap wix/brew
     - brew install applesimutils --HEAD
-    script:
     - cd test
+    - npm install        
     - detox build --configuration ios.sim.release
+    script:
     - detox test --configuration ios.sim.release --debug-synchronization
 
   - language: android
@@ -37,9 +38,10 @@ matrix:
     install:
     - npm install -g react-native-cli 
     - npm install -g detox-cli
-    script:
     - cd test
+    - npm install    
     - detox build --configuration android.emu.release
+    script:
     - detox test --configuration android.emu.release
 
 
