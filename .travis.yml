@@ -16,7 +16,10 @@ matrix:
     - brew tap wix/brew
     - brew install applesimutils --HEAD
     script:
-    - ./scripts/ci.ios.sh
+    - cd test
+    - detox build --configuration ios.sim.release
+    - detox test --configuration ios.sim.release --debug-synchronization
+
   - language: android
     env:
     - REACT_NATIVE_VERSION=0.59.4
@@ -35,7 +38,10 @@ matrix:
     - npm install -g react-native-cli 
     - npm install -g detox-cli
     script:
-    - ./scripts/ci.android.sh
+    - cd test
+    - detox build --configuration android.emu.release
+    - detox test --configuration android.emu.release
+
 
 before_install:
 - nvm install 10
