@@ -22,10 +22,5 @@
   "homepage": "https://github.com/Codeception/detox-helper#readme",
   "dependencies": {
     "detox": "^12.11.0"
-  },
-  "devDependencies": {
-    "codeceptjs": "^2.1.4",
-    "mocha": "^6.1.4",
-    "react-native": "^0.59.9"
   }
 }
