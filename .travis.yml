@@ -1,6 +1,13 @@
 language: node_js
 node_js: 8
 
+cache:
+  directories:
+    - test/node_modules
+    - test/android/build
+    - test/ios/build
+
+
 matrix:
   include:
   - language: objective-c
@@ -28,8 +35,8 @@ matrix:
     components:
     - tools
     - platform-tools
-    - build-tools-27.0.3
-    - android-26
+    - build-tools-28.0.3
+    - android-28
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
@@ -48,12 +55,10 @@ matrix:
     - npm install
 
     # Workaround until react android issue will be fixed - react-native: 0.55
-    - mv node_modules/react-native/ReactAndroid/release.gradle node_modules/react-native/ReactAndroid/release.gradle.bak
-    - cp extras/release.gradle node_modules/react-native/ReactAndroid/
-    - cat node_modules/react-native/ReactAndroid/release.gradle
-    - detox build --configuration android.emu.release
+    - npm run packager &
+    - detox build --configuration android.emu.debug
     script:
-    - CONF=android.emu.release npx mocha Detox_helper_test.js
+    - CONF=android.emu.debug npx mocha Detox_helper_test.js
 
 
 before_install:

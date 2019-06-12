@@ -69,7 +69,7 @@ dependencies {
     // noinspection GradleDynamicVersion
     fromBinImplementation "com.facebook.react:react-native:+"
 
-    androidTestImplementation(project(path: ":detox"))
+    androidTestImplementation('com.wix:detox:+') { transitive = true }
     androidTestImplementation 'junit:junit:4.12'
 }
 
