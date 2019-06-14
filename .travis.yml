@@ -22,6 +22,7 @@ matrix:
     - export CODE_SIGNING_REQUIRED=NO
     - brew tap wix/brew
     - brew install applesimutils --HEAD
+    - npm install        
     - cd test
     - npm install        
     - detox build --configuration ios.sim.release
@@ -51,6 +52,7 @@ matrix:
     - "export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle"
     - npm install -g react-native-cli 
     - npm install -g detox-cli
+    - npm install        
     - cd test
     - npm install
 
