@@ -99,6 +99,42 @@ class Detox extends Helper {
     });
   }
 
+  async _locate(locator) {
+    return element(this._detectLocator(locator, 'type'));
+  }
+
+  async _locateClickable(locator) {
+    return element(this._detectLocator(locator, 'type'));
+  }
+
+  async relaunchApp() {
+    return this.device.launchApp({ newInstance: true });
+  }
+
+  async launchApp() {
+    return this.device.launchApp({ newInstance: false });
+  }
+
+  async installApp() {
+    return this.device.installApp();
+  }
+
+  async shakeDevice() {
+    await this.device.shake();
+  }
+
+  async goBack() {
+    await this.device.pressBack();
+  }
+
+  async setLandscapeOrientation() {
+    await this.device.setOrientation('landscape');
+  }
+
+  async setPortraitOrientation() {
+    await this.device.setOrientation('portrait');
+  }
+
   /**
    * Execute code only on iOS
    *
@@ -144,25 +180,25 @@ class Detox extends Helper {
   }
 
   async multiTap(locator, num, context = null) {
-    locator = this._detectLocator(locator);
+    locator = this._detectLocator(locator, 'text');
     if (context) locator = this._detectLocator(context).withDescendant(locator);
-    await element(this._detectLocator(locator)).multiTap(num);
+    await element(locator).multiTap(num);
   }
 
   async longPress(locator, sec, context = null) {
-    locator = this._detectLocator(locator);
+    locator = this._detectLocator(locator, 'text');
     if (context) locator = this._detectLocator(context).withDescendant(locator);
-    await element(this._detectLocator(locator)).longPress(sec * 1000);
+    await element(locator).longPress(sec * 1000);
   }
 
   async click(locator, context) {
-    locator = this._detectLocator(locator);
+    locator = this._detectLocator(locator, 'text');
     if (context) locator = this._detectLocator(context).withDescendant(locator);
-    await element(this._detectLocator(locator)).tap();
+    await element(locator).tap();
   }
 
   async clickAtPoint(locator, x, y) {
-    await element(this._detectLocator(locator)).tapAtPoint({ x, y });
+    await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
   }
 
   see(text, context = null) {
@@ -175,41 +211,56 @@ class Detox extends Helper {
   dontSee(text, context = null) {
     let locator = by.text(text);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
-    return expect(element(locator)).toNotExist();
+    return expect(element(locator)).toBeNotVisible();
   }
 
   seeElement(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
-    return expect(element(locator)).toExist();
+    return expect(element(locator)).toBeVisible();
   }
 
   dontSeeElement(locator, context = null) {
+    locator = this._detectLocator(locator);
+    if (context) locator = this._detectLocator(context).withDescendant(locator);
+    return expect(element(locator)).toBeNotVisible();
+  }
+
+  seeElementExist(locator, context = null) {
+    locator = this._detectLocator(locator);
+    if (context) locator = this._detectLocator(context).withDescendant(locator);
+    return expect(element(locator)).toExist();
+  }
+
+  dontSeeElementExist(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toNotExist();
   }
 
   async fillField(field, value) {
-    await element(this._detectLocator(field)).tap();
-    await element(this._detectLocator(field)).replaceText(value);
+    const locator = this._detectLocator(field, 'text');
+    await element(locator).tap();
+    await element(locator).replaceText(value);
   }
 
   async clearField(field) {
-    await element(this._detectLocator(field)).tap();
-    await element(this._detectLocator(field)).clearText();
+    const locator = this._detectLocator(field, 'text');
+    await element(locator).tap();
+    await element(locator).clearText();
   }
 
   async appendField(field, value) {
-    await element(this._detectLocator(field)).tap();
-    await element(this._detectLocator(field)).typeText(value);
+    const locator = this._detectLocator(field, 'text');
+    await element(locator).tap();
+    await element(locator).typeText(value);
   }
 
-  async scrollTop(locator) {
+  async scrollUp(locator) {
     await element(this._detectLocator(locator)).scrollTo('top');
   }
 
-  async scrollBottom(locator) {
+  async scrollDown(locator) {
     await element(this._detectLocator(locator)).scrollTo('bottom');
   }
 
@@ -221,12 +272,12 @@ class Detox extends Helper {
     await element(this._detectLocator(locator)).scrollTo('right');
   }
 
-  async swipeTop(locator, speed = 'slow') {
-    await element(this._detectLocator(locator)).swipe('top', speed);
+  async swipeUp(locator, speed = 'slow') {
+    await element(this._detectLocator(locator)).swipe('up', speed);
   }
 
-  async swipeBottom(locator, speed = 'slow') {
-    await element(this._detectLocator(locator)).swipe('bottom', speed);
+  async swipeDown(locator, speed = 'slow') {
+    await element(this._detectLocator(locator)).swipe('down', speed);
   }
 
   async swipeLeft(locator, speed = 'slow') {
@@ -237,7 +288,11 @@ class Detox extends Helper {
     await element(this._detectLocator(locator)).swipe('right', speed);
   }
 
-  
+  async wait(sec) {
+    return new Promise(((done) => {
+      setTimeout(done, sec * 1000);
+    }));
+  }
 
   /**
    * @param locator
@@ -255,7 +310,7 @@ class Detox extends Helper {
     return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);
   }
   
-  _detectLocator(locator) {
+  _detectLocator(locator, type = 'type') {
     if (typeof locator === 'object') {
       if (locator.android && this.device.getPlatform() === 'android') return this._detectLocator(locator.android);
       if (locator.ios && this.device.getPlatform() === 'ios') return this._detectLocator(locator.ios);

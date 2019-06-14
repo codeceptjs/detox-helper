@@ -19,7 +19,6 @@
     "verify-artifacts:android": "jest ./scripts/verify_artifacts_are_not_missing.android.test.js --testEnvironment node"
   },
   "dependencies": {
-    "codeceptjs": "^2.1.4",
     "moment": "^2.24.0",
     "detox": "^12.11.0",
     "react": "16.8.3",

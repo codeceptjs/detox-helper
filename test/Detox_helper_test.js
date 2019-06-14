@@ -135,22 +135,22 @@ describe('Detox', function () {
     });
   
     it('should replace text in an element', async () => {
-      await I.fillField('#UniqueId006', 'replaced_test');
+      await I.fillField('#UniqueId006', 'replaced_text');
       await I.see('Replace Working!!!');
     });
     
     // edges: 'top'/'bottom'/'left'/'right'
     it('should scroll to edge', async () => {
       await I.dontSee('Text8');
-      await I.scrollBottom('#ScrollView161');
+      await I.scrollDown('#ScrollView161');
       await I.see('Text8');
-      await I.scrollTop('#ScrollView161');
+      await I.scrollUp('#ScrollView161');
       await I.see('Text1');
     });
   
     // TODO - swipe is not good enough for triggering pull to refresh. need to come up with something better
     // directions: 'up'/'down'/'left'/'right', speed: 'fast'/'slow'
-    it('should swipe down until pull to reload is triggered', async () => {
+    xit('should swipe down until pull to reload is triggered', async () => {
       await I.swipeDown('#ScrollView799');
       await I.see('PullToReload Working!!!');
     });
@@ -168,6 +168,54 @@ describe('Detox', function () {
     });
   });
 
+  describe('Assertions', () => {
+    beforeEach(async () => {
+      await I.click('Assertions');
+    });
+  
+    it('should assert an element is visible', async () => {
+      await I.seeElement('#UniqueId204');
+    });
+  
+    it('should assert an element is not visible', async () => {
+      await I.dontSeeElement('#UniqueId205');
+    });
+  
+    // prefer toBeVisible to make sure the user actually sees this element
+    it('should assert an element exists', async () => {
+      await I.seeElementExist('#UniqueId205');
+    });
+  
+    it('should assert an element does not exist', async () => {
+      await I.dontSeeElementExist('#RandomJunk959');
+    });
+  
+    // matches specific text elements like UIButton, UILabel, UITextField or UITextView, RCTText
+    it('should assert an element has text', async () => {
+      await I.see('I contain some text', '#UniqueId204');
+    });  
+  });
+  
+  describe('Device Orientation', () => {
+    beforeEach(async() => {
+      await I.click('Orientation');
+      await I.seeElementExist('#currentOrientation');
+    });
+  
+    it('OrientationLandscape', async () => {
+      await I.setLandscapeOrientation();
+      await I.see('Landscape', '#currentOrientation'); 
+    });
+  
+    it('OrientationPortrait', async() => {
+      // As default is portrait we need to set it otherwise
+      await I.setLandscapeOrientation();
+      await I.setPortraitOrientation();
+      await I.see('Portrait', '#currentOrientation'); 
+    });
+  });
+  
+
   describe('#wait', () => {
     beforeEach(async () => {
       await I.click('WaitFor');
@@ -179,5 +227,12 @@ describe('Detox', function () {
       await I.waitForElement('#createdAndVisibleText', 20);
       await I.seeElement('#createdAndVisibleText');
     });
+
+    it('should wait until an element is removed', async () => {
+      await I.seeElement('#deletedFromHierarchyText');
+      await I.click('#GoButton');
+      await I.waitToHide('#deletedFromHierarchyText', 20);
+      await I.dontSeeElement('#deletedFromHierarchyText');
+    });    
   });
 });
