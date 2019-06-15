@@ -83,8 +83,7 @@
         "build": "cd android && ./gradlew assembleFromSourceDebug assembleFromSourceDebugAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "name": "Nexus_5X_API_26"
-      },
-
+      }
     }
   }
 }
