@@ -91,12 +91,12 @@ describe('Detox', function () {
       await I.see('Tap Working!!!');
     });
   
-    it('should long press on an element', async () => {
+    xit('should long press on an element', async () => {
       await I.longPress('Tap Me');
       await I.see('Long Press Working!!!');
     });
   
-    it('should long press with duration on an element', async () => {
+    xit('should long press with duration on an element', async () => {
       await I.longPress('Long Press Me 1.5s', 1.5);
       await I.see('Long Press With Duration Working!!!');
     });

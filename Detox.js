@@ -328,7 +328,10 @@ class Detox extends Helper {
     if (locator[0] === '~') {
       return by.label(locator.slice(1));
     }
-    return by.text(locator);
+    if (type ==='text') {
+      return by.text(locator);
+    }
+    return by.type(locator);
   }
 }
 

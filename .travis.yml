@@ -49,6 +49,17 @@ matrix:
     - echo y | sdkmanager "cmake;3.6.4111459"
     - echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404"
     - echo y | sdkmanager "lldb;3.1"  
+    - echo y | sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
+    - echo y | sdkmanager "platforms;android-26" >/dev/null # We need the API of the emulator we will run
+    - echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+    - echo y | sdkmanager --channel=4 "emulator" >/dev/null # Use canary channel to get emulator 29.x for x86_64 image support
+    - echo y | sdkmanager "extras;android;m2repository" >/dev/null
+    - echo y | sdkmanager "system-images;android-26;default;$ABI" >/dev/null # install our emulator
+    - echo no | avdmanager create avd --force -n test -k "system-images;android-26;default;$ABI" -c 10M
+    - emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
+    - android-wait-for-emulator
+    - adb shell input keyevent 82 &
+    - npm run packager 82 &
     - "export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle"
     - npm install -g react-native-cli 
     - npm install -g detox-cli
@@ -58,9 +69,9 @@ matrix:
 
     # Workaround until react android issue will be fixed - react-native: 0.55
     - npm run packager &
-    - detox build --configuration android.emu.debug
+    - detox build --configuration android.emu.ci
     script:
-    - CONF=android.emu.debug npx mocha Detox_helper_test.js
+    - CONF=android.emu.ci npx mocha Detox_helper_test.js
 
 
 before_install:
