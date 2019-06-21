@@ -36,6 +36,7 @@ matrix:
     - REACT_NATIVE_VERSION=0.59.4
     - ADB_INSTALL_TIMEOUT=8
     - ABI=x86_64
+    - API=25
     - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
     # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
     - ANDROID_HOME=/usr/local/android-sdk
