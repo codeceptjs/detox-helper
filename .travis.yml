@@ -36,23 +36,23 @@ matrix:
     - REACT_NATIVE_VERSION=0.59.4
     - ADB_INSTALL_TIMEOUT=8
     - ABI=x86_64
-    - API=25
+    - API=26
     - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
     # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
     - ANDROID_HOME=/usr/local/android-sdk
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}    
     android:
-    components:
-    - tools
-    - platform-tools
-    - build-tools-28.0.3
-    - android-28
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - sys-img-x86-android-26
-    - sys-img-x86-android-28
+      components:
+      - tools
+      - platform-tools
+      - build-tools-28.0.3
+      - android-28
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - extra-android-m2repository
+      - sys-img-x86-android-26
+      - sys-img-x86-android-28
     install:
     - yes | sdkmanager "platforms;android-28"    
     - echo y | sdkmanager "ndk-bundle"
