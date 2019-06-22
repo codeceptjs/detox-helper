@@ -76,7 +76,7 @@
         "binaryPath": "android/app/build/outputs/apk/fromBin/debug/app-fromBin-debug.apk",
         "build": "cd android && ./gradlew assembleFromBinDebug && cd ..",
         "type": "android.emulator",
-        "name": "test"
+        "name": "android"
       },
       "android.emu.debug.fromSource": {
         "binaryPath": "android/app/build/outputs/apk/fromSource/debug/app-fromSource-debug.apk",
