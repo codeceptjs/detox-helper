@@ -135,7 +135,7 @@ matrix:
             echo "hw.lcd.height=1920
             hw.lcd.width=1080 
             hw.lcd.density=161 
-            skin.name=240x426" >> /root/.android/avd/android.avd/config.ini"
+            skin.name=240x426" >> $HOME/.android/avd/android.avd/config.ini"
         - "emulator -verbose -avd android -no-accel -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &"
         - "cat /home/travis/.android/avd/android.avd/config.ini"
         - android-wait-for-emulator
