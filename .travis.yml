@@ -66,11 +66,7 @@ matrix:
     - echo y | sdkmanager "extras;android;m2repository" >/dev/null
     - echo y | sdkmanager "system-images;android-26;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
     - echo no | avdmanager create avd --force -n android -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
-    - |
-        echo "hw.lcd.height=1920
-        hw.lcd.width=1080 
-        hw.lcd.density=161 
-        skin.name=240x426" >> $HOME/.android/avd/android.avd/config.ini"
+    - cat test/android.config.ini >> $HOME/.android/avd/android.avd/config.ini"
     - emulator -verbose -avd android -no-accel -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
     - cat /home/travis/.android/avd/android.avd/config.ini
     - android-wait-for-emulator
