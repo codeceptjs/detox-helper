@@ -8,6 +8,18 @@ let element;
 let expect;
 let waitFor;
 
+/**
+ * This is a wrapper on top of [Detox](https://github.com/wix/Detox) library by Wix aimied to unify testing experience for CodeceptJS framework.
+ * Detox provides a grey box testing for mobile applications, playing especially good for React Native apps.
+ * 
+ * Detox plays quite differently from Appium. To establish detox testing you need to build a mobile application in a special way to inject Detox code.
+ * This why Detox is grey box testing, so you need an access to application source code, and a way to build and execute it on emulator.
+ * 
+ * Comparing to Appium, Detox runs faster and more stable but requires an additional setup for build.
+ * 
+ * Detox configuration is set in `package.json` file
+ * 
+ */
 class Detox extends Helper {
   
   constructor(config) {
@@ -194,7 +206,7 @@ class Detox extends Helper {
     *    I.see('Hi, IOS');
     * });
     * ```
-    *
+    * @param fn a function which will be executed on iOS
     */
    async runOnIOS(fn) {
      if (device.getPlatform() !== 'ios') return;
@@ -214,7 +226,7 @@ class Detox extends Helper {
     *    I.see('Hi, Android');
     * });
     * ```
-    *
+    * @param fn a function which will be executed on android
     */
    async runOnAndroid(fn) {
      if (device.getPlatform() !== 'android') return;
@@ -465,13 +477,14 @@ class Detox extends Helper {
   }
 
   /**
-   * Clears text field
+   * Clears a text field.
+   * A field can be located by text, accessibility id, id.
    * 
    * ```js
    * I.clearField('~name');
    * ``` 
    * 
-   * @param {string|object} field 
+   * @param {string|object} field an input element to clear
    */
   async clearField(field) {
     const locator = this._detectLocator(field, 'text');
@@ -480,6 +493,12 @@ class Detox extends Helper {
   }
 
   /**
+   * Appends text into the field.
+   * A field can be located by text, accessibility id, id.
+   * 
+   * ```js
+   * I.appendField('name', 'davert');
+   * ```
    * 
    * @param {string|object} field 
    * @param {string} value 
