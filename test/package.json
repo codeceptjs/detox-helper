@@ -74,7 +74,7 @@
       },
       "android.emu.ci": {
         "binaryPath": "android/app/build/outputs/apk/fromBin/debug/app-fromBin-debug.apk",
-        "build": "cd android && ./gradlew assembleFromBinDebug && cd ..",
+        "build": "cd android && ./gradlew assembleFromBinRelease assembleFromBinReleaseAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "name": "android"
       },
