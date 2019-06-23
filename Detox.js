@@ -123,14 +123,35 @@ class Detox extends Helper {
     await this.device.shake();
   }
 
+  /**
+  * Goes back on Android
+  * 
+  * ```js
+  * I.goBack(); // on Android only
+  * ```
+  */
   async goBack() {
     await this.device.pressBack();
   }
 
+  /**
+  * Switches device to landscape orientation
+  * 
+  * ```js
+  * I.setLandscapeOrientation();
+  * ```
+  */
   async setLandscapeOrientation() {
     await this.device.setOrientation('landscape');
   }
 
+  /**
+   * Switches device to portrait orientation
+   * 
+   * ```js
+   * I.setPortraitOrientation();
+   * ```
+   */
   async setPortraitOrientation() {
     await this.device.setOrientation('portrait');
   }
@@ -209,6 +230,7 @@ class Detox extends Helper {
    * I.multiTap('Login', 2); // locate by text
    * I.multiTap('~nav', 2); // locate by accessibility label
    * I.multiTap('#user', 2); // locate by id
+   * I.multiTap('Update', 2, '#menu'); // locate by id
    * ```
    * 
    * @param {string|object} locator element to locate
@@ -222,7 +244,13 @@ class Detox extends Helper {
   }
 
   /**
+   * Taps an element and holds for a requested time.
    * 
+   * ```js
+   * I.longPress('Login', 2); // locate by text, hold for 2 seconds
+   * I.longPress('~nav', 1); // locate by accessibility label, hold for second
+   * I.longPress('Update', 2, '#menu'); // locate by text inside #menu, hold for 2 seconds
+   * ```
    * 
    * @param {string|object} locator element to locate
    * @param {num} sec number of seconds to hold tap
@@ -278,6 +306,17 @@ class Detox extends Helper {
     await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
   }
 
+  /**
+   * Checks text to be visible.
+   * Use second parameter to narrow down the search.
+   * 
+   * ```js
+   * 
+   * ```
+   * 
+   * @param {string} text to check visibility
+   * @param {string|object} [context=null] element inside which to search for text 
+   */
   see(text, context = null) {
     if (context) {
       return expect(element(this._detectLocator(context))).toHaveText(text);
@@ -285,86 +324,172 @@ class Detox extends Helper {
     return expect(element(by.text(text))).toExist();
   }
 
+  /**
+   * 
+   * @param {string} text 
+   * @param {string|object} context 
+   */
   dontSee(text, context = null) {
     let locator = by.text(text);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toBeNotVisible();
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   * @param {string|object} [context=null]
+   */
   seeElement(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toBeVisible();
   }
 
+
+  /**
+   * 
+   * @param {string|object} locator 
+   * @param {string|object} [context=null]
+   */  
   dontSeeElement(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toBeNotVisible();
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   * @param {string|object} context 
+   */
   seeElementExist(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toExist();
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   * @param {string|object} context 
+   */
   dontSeeElementExist(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toNotExist();
   }
 
+  /**
+   * 
+   * @param {string|object} field 
+   * @param {string} value 
+   */
   async fillField(field, value) {
     const locator = this._detectLocator(field, 'text');
     await element(locator).tap();
     await element(locator).replaceText(value);
   }
 
+  /**
+   * 
+   * @param {string|object} field 
+   */
   async clearField(field) {
     const locator = this._detectLocator(field, 'text');
     await element(locator).tap();
     await element(locator).clearText();
   }
 
+  /**
+   * 
+   * @param {string|object} field 
+   * @param {string} value 
+   */
   async appendField(field, value) {
     const locator = this._detectLocator(field, 'text');
     await element(locator).tap();
     await element(locator).typeText(value);
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async scrollUp(locator) {
     await element(this._detectLocator(locator)).scrollTo('top');
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async scrollDown(locator) {
     await element(this._detectLocator(locator)).scrollTo('bottom');
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async scrollLeft(locator) {
     await element(this._detectLocator(locator)).scrollTo('left');
   }
 
+
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async scrollRight(locator) {
     await element(this._detectLocator(locator)).scrollTo('right');
   }
 
+
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async swipeUp(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('up', speed);
   }
 
+
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async swipeDown(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('down', speed);
   }
 
+
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async swipeLeft(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('left', speed);
   }
 
+
+  /**
+   * 
+   * @param {string|object} locator 
+   */
   async swipeRight(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('right', speed);
   }
 
+  /**
+   * Waits for number of seconds
+   * 
+   * ```js
+   * I.wait(2); // waits for 2 seconds
+   * ```
+   * 
+   * @param {int} sec number of seconds to wait
+   */
   async wait(sec) {
     return new Promise(((done) => {
       setTimeout(done, sec * 1000);
@@ -379,10 +504,20 @@ class Detox extends Helper {
     return waitFor(element(this._detectLocator(locator))).toExist().withTimeout(sec * 1000);
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   * @param {int} sec 
+   */
   async waitForElementVisible(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeVisible().withTimeout(sec * 1000);
   }
 
+  /**
+   * 
+   * @param {string|object} locator 
+   * @param {int} sec 
+   */
   async waitToHide(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);
   }
