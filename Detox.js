@@ -107,18 +107,47 @@ class Detox extends Helper {
     return element(this._detectLocator(locator, 'type'));
   }
 
+  /**
+  * Relaunches an application.
+  * 
+  * ```js
+  * I.relaunchApp();
+  * ```
+  */
   async relaunchApp() {
     return this.device.launchApp({ newInstance: true });
   }
 
+  /**
+  * Launches an application. If application instance already exists, use [relaunchApp](#relaunchApp).
+  * 
+  * ```js
+  * I.launchApp();
+  * ```
+  */
   async launchApp() {
     return this.device.launchApp({ newInstance: false });
   }
 
+  /**
+  * Installs a configured application.
+  * Application is installed by default.
+  * 
+  * ```js
+  * I.installApp();
+  * ```
+  */
   async installApp() {
     return this.device.installApp();
   }
 
+  /**
+   * Shakes the device.
+   * 
+   * ```js
+   * I.shakeDevice();
+   * ```
+   */
   async shakeDevice() {
     await this.device.shake();
   }
@@ -417,7 +446,7 @@ class Detox extends Helper {
   }
 
   /**
-   * Fills in input field in an app.
+   * Fills in text field in an app.
    * A field can be located by text, accessibility id, id.
    * 
    * ```js
@@ -426,8 +455,8 @@ class Detox extends Helper {
    * I.fillField({ android: 'NAME', ios: 'name' }, 'davert');
    * ```
    * 
-   * @param {string|object} field to fill value
-   * @param {string} value 
+   * @param {string|object} field an input element to fill in
+   * @param {string} value value to fill 
    */
   async fillField(field, value) {
     const locator = this._detectLocator(field, 'text');
@@ -436,6 +465,11 @@ class Detox extends Helper {
   }
 
   /**
+   * Clears text field
+   * 
+   * ```js
+   * I.clearField('~name');
+   * ``` 
    * 
    * @param {string|object} field 
    */
@@ -457,6 +491,11 @@ class Detox extends Helper {
   }
 
   /**
+   * Scrolls to the top of an element.
+   * 
+   * ```js
+   * I.scrollUp('#container');
+   * ```
    * 
    * @param {string|object} locator 
    */
@@ -465,6 +504,11 @@ class Detox extends Helper {
   }
 
   /**
+   * Scrolls to the bottom of an element.
+   * 
+   * ```js
+   * I.scrollDown('#container');
+   * ```
    * 
    * @param {string|object} locator 
    */
@@ -473,6 +517,11 @@ class Detox extends Helper {
   }
 
   /**
+   * Scrolls to the left of an element.
+   * 
+   * ```js
+   * I.scrollLeft('#container');
+   * ```
    * 
    * @param {string|object} locator 
    */
@@ -482,6 +531,11 @@ class Detox extends Helper {
 
 
   /**
+   * Scrolls to the right of an element.
+   * 
+   * ```js
+   * I.scrollRight('#container');
+   * ```
    * 
    * @param {string|object} locator 
    */
@@ -491,8 +545,15 @@ class Detox extends Helper {
 
 
   /**
+   * Performs a swipe up inside an element.
+   * Can be `slow` or `fast` swipe.
    * 
-   * @param {string|object} locator 
+   * ```js
+   * I.swipeUp('#container');
+   * ```
+   * 
+   * @param {string|object} locator an element on which to perform swipe
+   * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeUp(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('up', speed);
@@ -500,8 +561,15 @@ class Detox extends Helper {
 
 
   /**
+   * Performs a swipe up inside an element.
+   * Can be `slow` or `fast` swipe.
    * 
-   * @param {string|object} locator 
+   * ```js
+   * I.swipeUp('#container');
+   * ```
+   * 
+   * @param {string|object} locator an element on which to perform swipe
+   * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeDown(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('down', speed);
@@ -509,8 +577,15 @@ class Detox extends Helper {
 
 
   /**
+   * Performs a swipe up inside an element.
+   * Can be `slow` or `fast` swipe.
    * 
-   * @param {string|object} locator 
+   * ```js
+   * I.swipeUp('#container');
+   * ```
+   * 
+   * @param {string|object} locator an element on which to perform swipe
+   * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeLeft(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('left', speed);
@@ -518,8 +593,15 @@ class Detox extends Helper {
 
 
   /**
+   * Performs a swipe up inside an element.
+   * Can be `slow` or `fast` swipe.
    * 
-   * @param {string|object} locator 
+   * ```js
+   * I.swipeUp('#container');
+   * ```
+   * 
+   * @param {string|object} locator an element on which to perform swipe
+   * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeRight(locator, speed = 'slow') {
     await element(this._detectLocator(locator)).swipe('right', speed);
@@ -541,26 +623,42 @@ class Detox extends Helper {
   }
 
   /**
-   * @param locator
-   * @param sec
+   * Waits for an element to exist on page.
+   * 
+   * ```js
+   * I.waitForElement('#message', 1); // wait for 1 second
+   * ```
+   * 
+   * @param {string|object} locator an element to wait for
+   * @param {int} [sec=5] number of seconds to wait, 5 by default
    */
   async waitForElement(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toExist().withTimeout(sec * 1000);
   }
 
   /**
+   * Waits for an element to be visible on page.
    * 
-   * @param {string|object} locator 
-   * @param {int} sec 
+   * ```js
+   * I.waitForElementVisible('#message', 1); // wait for 1 second
+   * ```
+   * 
+   * @param {string|object} locator an element to wait for
+   * @param {int} [sec=5] number of seconds to wait
    */
   async waitForElementVisible(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeVisible().withTimeout(sec * 1000);
   }
 
   /**
+   * Waits an elment to become not visible.
    * 
-   * @param {string|object} locator 
-   * @param {int} sec 
+   * ```js
+   * I.waitToHide('#message', 2); // wait for 2 seconds
+   * ```
+   * 
+   * @param {string|object} locator  an element to wait for
+   * @param {int} [sec=5] number of seconds to wait
    */
   async waitToHide(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);

@@ -80,7 +80,7 @@ matrix:
     - npm install
 
     # Workaround until react android issue will be fixed - react-native: 0.55
-    - npm run packager    
+    - npm run packager &   
     - detox build --configuration android.emu.ci
     script:
     - CONF=android.emu.ci npx mocha Detox_helper_test.js
