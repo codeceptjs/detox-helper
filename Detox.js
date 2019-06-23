@@ -156,7 +156,7 @@ class Detox extends Helper {
 
 
   /**
-   * Execute code only on iOS
+   * Execute code only on Android
    *
    * ```js
    * I.runOnAndroid(() => {
@@ -175,29 +175,106 @@ class Detox extends Helper {
   }  
 
 
-  tap(locator) {
-    return this.click(locator);
+  /**
+   * Taps on an element. 
+   * Element can be located by its text or id or accessibility id.
+   * 
+   * The second parameter is a context element to narrow the search.
+   * 
+   * Same as [click](#click)
+   * 
+   * ```js
+   * I.tap('Login'); // locate by text
+   * I.tap('~nav-1'); // locate by accessibility label
+   * I.tap('#user'); // locate by id
+   * I.tap('Login', '#nav'); // locate by text inside #nav
+   * I.tap({ ios: 'Save', android: 'SAVE' }, '#main'); // different texts on iOS and Android
+   * ```
+   * 
+   * @param {string|object} locator 
+   * @param {string|object} [context=null] 
+   */
+  tap(locator, context = null) {
+    return this.click(locator, context);
   }
 
+  /**
+   * Multi taps on an element.
+   * Element can be located by its text or id or accessibility id.
+   * 
+   * Set the number of taps in second argument.
+   * Optionally define the context element by third argument.
+   * 
+   * ```js
+   * I.multiTap('Login', 2); // locate by text
+   * I.multiTap('~nav', 2); // locate by accessibility label
+   * I.multiTap('#user', 2); // locate by id
+   * ```
+   * 
+   * @param {string|object} locator element to locate
+   * @param {int} num number of taps 
+   * @param {string|object} [context=null] context element
+   */
   async multiTap(locator, num, context = null) {
     locator = this._detectLocator(locator, 'text');
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).multiTap(num);
   }
 
+  /**
+   * 
+   * 
+   * @param {string|object} locator element to locate
+   * @param {num} sec number of seconds to hold tap
+   * @param {string|object} context context element 
+   */
   async longPress(locator, sec, context = null) {
     locator = this._detectLocator(locator, 'text');
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).longPress(sec * 1000);
   }
 
-  async click(locator, context) {
+
+  /**
+   * Clicks on an element. 
+   * Element can be located by its text or id or accessibility id
+   * 
+   * The second parameter is a context (id | type | accessibility id) to narrow the search.
+   * 
+   * Same as [tap](#tap)
+   * 
+   * ```js
+   * I.click('Login'); // locate by text
+   * I.click('~nav-1'); // locate by accessibility label
+   * I.click('#user'); // locate by id
+   * I.click('Login', '#nav'); // locate by text inside #nav
+   * I.click({ ios: 'Save', android: 'SAVE' }, '#main'); // different texts on iOS and Android
+   * ```
+   * 
+   * @param {string|object} locator 
+   * @param {string|object} [context=null] 
+   */
+  async click(locator, context = null) {
     locator = this._detectLocator(locator, 'text');
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).tap();
   }
 
-  async clickAtPoint(locator, x, y) {
+  /**
+  * Performs click on element with horizontal and vertical offset.
+  * An element is located by text, id, accessibility id.
+  * 
+  * ```js
+  * I.clickAtPoint('Save', 10, 10);
+  * I.clickAtPoint('~save', 10, 10); // locate by accessibility id
+  * ```
+  * 
+  * @param {string|object} locator
+  * @param {int} [x=0] horizontal offset
+  * @param {int} [y=0] vertical offset
+  * 
+  */
+  async clickAtPoint(locator, x = 0, y = 0) {
     await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
   }
 
@@ -312,8 +389,8 @@ class Detox extends Helper {
   
   _detectLocator(locator, type = 'type') {
     if (typeof locator === 'object') {
-      if (locator.android && this.device.getPlatform() === 'android') return this._detectLocator(locator.android);
-      if (locator.ios && this.device.getPlatform() === 'ios') return this._detectLocator(locator.ios);
+      if (locator.android && this.device.getPlatform() === 'android') return this._detectLocator(locator.android, type);
+      if (locator.ios && this.device.getPlatform() === 'ios') return this._detectLocator(locator.ios, type);
       if (locator.id) return by.id(locator.id);
       if (locator.label) return by.label(locator.label);
       if (locator.text) return by.text(locator.text);
