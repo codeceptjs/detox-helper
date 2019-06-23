@@ -183,11 +183,11 @@ describe('Detox', function () {
   
     // prefer toBeVisible to make sure the user actually sees this element
     it('should assert an element exists', async () => {
-      await I.seeElementExist('#UniqueId205');
+      await I.seeElementExists('#UniqueId205');
     });
   
     it('should assert an element does not exist', async () => {
-      await I.dontSeeElementExist('#RandomJunk959');
+      await I.dontSeeElementExists('#RandomJunk959');
     });
   
     // matches specific text elements like UIButton, UILabel, UITextField or UITextView, RCTText
@@ -199,7 +199,7 @@ describe('Detox', function () {
   describe('Device Orientation', () => {
     beforeEach(async() => {
       await I.click('Orientation');
-      await I.seeElementExist('#currentOrientation');
+      await I.seeElementExists('#currentOrientation');
     });
   
     it('OrientationLandscape', async () => {

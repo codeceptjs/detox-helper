@@ -70,7 +70,6 @@ matrix:
     - emulator -verbose -avd android -no-accel -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
-    - npm run packager &
     - "export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle"
     - npm install -g react-native-cli 
     - npm install -g detox-cli
@@ -81,7 +80,7 @@ matrix:
     - npm install
 
     # Workaround until react android issue will be fixed - react-native: 0.55
-    - npm run packager &
+    - npm run packager    
     - detox build --configuration android.emu.ci
     script:
     - CONF=android.emu.ci npx mocha Detox_helper_test.js

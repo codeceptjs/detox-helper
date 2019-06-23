@@ -311,7 +311,9 @@ class Detox extends Helper {
    * Use second parameter to narrow down the search.
    * 
    * ```js
-   * 
+   * I.see('Record created');
+   * I.see('Record updated', '#message');
+   * I.see('Record deleted', '~message');
    * ```
    * 
    * @param {string} text to check visibility
@@ -325,9 +327,16 @@ class Detox extends Helper {
   }
 
   /**
+   * Checks text not to be visible.
+   * Use second parameter to narrow down the search.
    * 
-   * @param {string} text 
-   * @param {string|object} context 
+   * ```js
+   * I.dontSee('Record created');
+   * I.dontSee('Record updated', '#message');
+   * I.dontSee('Record deleted', '~message');
+   * ```
+   * @param {string} text to check invisibility
+   * @param {string|object} context element in which to search for text
    */
   dontSee(text, context = null) {
     let locator = by.text(text);
@@ -336,9 +345,16 @@ class Detox extends Helper {
   }
 
   /**
+   * Checks for visibility of an element.
+   * Use second parameter to narrow down the search.
    * 
-   * @param {string|object} locator 
-   * @param {string|object} [context=null]
+   * ```js
+   * I.seeElement('~edit'); // located by accessibility id
+   * I.seeElement('~edit', '#menu'); // element inside #menu
+   * ```
+   * 
+   * @param {string|object} locator element to locate 
+   * @param {string|object} [context=null] context element
    */
   seeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -348,9 +364,15 @@ class Detox extends Helper {
 
 
   /**
+   * Checks that element is not visible.
+   * Use second parameter to narrow down the search.
    * 
-   * @param {string|object} locator 
-   * @param {string|object} [context=null]
+   * ```js
+   * I.dontSeeElement('~edit'); // located by accessibility id
+   * I.dontSeeElement('~edit', '#menu'); // element inside #menu
+   * ```
+   * @param {string|object} locator element to locate
+   * @param {string|object} [context=null] context element
    */  
   dontSeeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -359,30 +381,52 @@ class Detox extends Helper {
   }
 
   /**
+   * Checks for existence of an element. An element can be visible or not.
+   * Use second parameter to narrow down the search.
    * 
-   * @param {string|object} locator 
-   * @param {string|object} context 
+   * ```js
+   * I.seeElementExists('~edit'); // located by accessibility id
+   * I.seeElementExists('~edit', '#menu'); // element inside #menu
+   * ```
+   * 
+   * @param {string|object} locator element to locate 
+   * @param {string|object} context  context element
    */
-  seeElementExist(locator, context = null) {
+  seeElementExists(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toExist();
   }
 
   /**
+   * Checks that element not exists.
+   * Use second parameter to narrow down the search.
    * 
-   * @param {string|object} locator 
-   * @param {string|object} context 
+   * ```js
+   * I.dontSeeElementExist('~edit'); // located by accessibility id
+   * I.dontSeeElementExist('~edit', '#menu'); // element inside #menu
+   * ```
+   * 
+   * @param {string|object} locator element to locate 
+   * @param {string|object} context context element
    */
-  dontSeeElementExist(locator, context = null) {
+  dontSeeElementExists(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     return expect(element(locator)).toNotExist();
   }
 
   /**
+   * Fills in input field in an app.
+   * A field can be located by text, accessibility id, id.
    * 
-   * @param {string|object} field 
+   * ```js
+   * I.fillField('Username', 'davert');
+   * I.fillField('~name', 'davert');
+   * I.fillField({ android: 'NAME', ios: 'name' }, 'davert');
+   * ```
+   * 
+   * @param {string|object} field to fill value
    * @param {string} value 
    */
   async fillField(field, value) {
