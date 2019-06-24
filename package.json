@@ -24,6 +24,7 @@
     "detox": "^12.11.0"
   },
   "devDependencies": {
-    "codeceptjs": "^2.1.4"
+    "codeceptjs": "^2.1.4",
+    "documentation": "^11.0.1"
   }
 }
