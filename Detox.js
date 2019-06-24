@@ -84,6 +84,8 @@ class Detox extends Helper {
       process.argv.push('--configuration');
       process.argv.push(this.options.configuration);
     }
+    process.argv.push('--artifacts-location');
+    process.argv.push(global.output_dir + '/');    
   }
 
   _registerGlobals() {
@@ -133,6 +135,19 @@ class Detox extends Helper {
     } else {
       await this.device.launchApp({ newInstance: true });
     }
+  }
+
+  /**
+  * Saves a screenshot to the output dir
+  * 
+  * ```js
+  * I.saveScreenshot('main-window.png');
+  * ```
+  * 
+  * @param string name 
+  */
+  async saveScreenshot(name) {
+    return this.device.takeScreenshot(name);
   }
 
   async _test(test) {
