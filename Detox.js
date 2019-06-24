@@ -17,7 +17,54 @@ let waitFor;
  * 
  * Comparing to Appium, Detox runs faster and more stable but requires an additional setup for build.
  * 
- * Detox configuration is set in `package.json` file
+ * ### Setup
+ * 
+ * To install and condifure Detox [see the official guide for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
+ * 
+ * After you performed all steps required to set up Detox by itself you are ready to configure this helper. Install it via npm:
+ * 
+ * ```
+ * npm i @codeceptjs/detox-helper --save
+ * ```
+ * 
+ * Detox configuration is required in `package.json` under `detox` section.
+ * 
+ * Example:
+ * 
+ * ```js
+ *  "detox": {
+ *    "configurations": {
+ *      "ios.sim.debug": {
+ *        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/example.app",
+ *        "build": "xcodebuild -project ios/example.xcodeproj -scheme example -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+ *        "type": "ios.simulator",
+ *        "name": "iPhone 7"
+ *      }
+ *    }
+ *  }
+ * ```
+ * 
+ * ### Configuration
+ * 
+ * In `codecept.conf.js` enable Detox helper:
+ * 
+ * ```js
+ * helpers: {
+ *    Detox: {
+ *      require: '@codeceptjs/detox',
+ *      configuration: 'ios.sim.debug',
+ *    }   
+ * }
+ * 
+ * ```
+ * 
+ * It's important to specify a package name under `require` section and current detox configuration taken from `package.json`.
+ * 
+ * Options:
+ * 
+ * * `configuration` - a detox configuration name. Required.
+ * * `reloadReactNative` - should be enabled for React Native applications.
+ * 
  * 
  */
 class Detox extends Helper {
