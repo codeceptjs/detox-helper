@@ -1,4 +1,4 @@
-# Detox Helper for CodeceptJS
+# [Detox](https://github.com/wix/Detox) Helper for [CodeceptJS](https://codecept.io)
 
 Testing Mobile Apps on iOS and Android can look like this:
 
@@ -20,10 +20,7 @@ I.runOnIOS(() => {
 });
 ```
 
-
-This helper allows using Detox with CodeceptJS.
 CodeceptJS provides next features over standard Detox:
-
 
 - **Unified API**. The same test can be executed in Appium or Detox. Unified API helps different teams to use the same syntax and easy port tests from one engine to another.
 - **Interactive pause**. When starting/stopping an application takes a long time, debugging and writing tests can be hard. 
