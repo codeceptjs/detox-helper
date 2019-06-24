@@ -14,7 +14,7 @@ describe('Detox', function () {
     global.codecept_dir = path.join(__dirname);
     I = new Detox({
       configuration,
-      reloadReactNative: true,
+      reloadReactNative: false,
     });
     return I._beforeSuite();
   });
