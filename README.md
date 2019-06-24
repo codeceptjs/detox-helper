@@ -22,11 +22,10 @@ I.runOnIOS(() => {
 
 CodeceptJS provides next features over standard Detox:
 
-- **Unified API**. The same test can be executed in Appium or Detox. Unified API helps different teams to use the same syntax and easy port tests from one engine to another.
-- **Interactive pause**. When starting/stopping an application takes a long time, debugging and writing tests can be hard. 
-CodeceptJS solves this by pausing an execution and letting you try different commands and locators. With this feature a test can be writtern during one running session.
-- **One Test For Android and IOS**. When application differs on Android and IOS you can provide corresponding system-related locators for both systems. When needed a different code can be executed for Android and IOS keeping it inside the same test.
-
+-   **Unified API**. The same test can be executed in Appium or Detox. Unified API helps different teams to use the same syntax and easy port tests from one engine to another.
+-   **Interactive pause**. When starting/stopping an application takes a long time, debugging and writing tests can be hard. 
+    CodeceptJS solves this by pausing an execution and letting you try different commands and locators. With this feature a test can be writtern during one running session.
+-   **One Test For Android and IOS**. When application differs on Android and IOS you can provide corresponding system-related locators for both systems. When needed a different code can be executed for Android and IOS keeping it inside the same test.
 
 ## API
 

@@ -3,19 +3,20 @@
   "version": "1.0.0",
   "description": "Detox helper for CodeceptJS",
   "main": "Detox.js",
-  "directories": {
-    "example": "examples",
-    "test": "test"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "npx documentation readme Detox.js --section=API --shallow"
+    "docs": "npx documentation readme Detox.js --section=API --shallow",
+    "release": "npm run docs && npm publish --access public"
   },
+  "files": [
+    "./Detox.js"
+  ],
+  "directories": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Codeception/detox-helper.git"
   },
-  "author": "",
+  "author": "Michael Bodnarchuk @davert",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Codeception/detox-helper/issues"

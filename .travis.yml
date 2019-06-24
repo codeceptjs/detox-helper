@@ -30,6 +30,54 @@ matrix:
     - detox build --configuration ios.sim.release
     script:
     - CONF=ios.sim.release npx mocha Detox_helper_test.js
+  - language: android
+    env:
+    - REACT_NATIVE_VERSION=0.59.4
+    - ADB_INSTALL_TIMEOUT=8
+    - ABI=x86_64
+    - API=26
+    - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
+    # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
+    - ANDROID_HOME=/usr/local/android-sdk
+    - TOOLS=${ANDROID_HOME}/tools
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}    
+    android:
+      components:
+      - tools
+      - platform-tools
+      - build-tools-28.0.3
+      - android-28
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - extra-android-m2repository
+      - sys-img-x86-android-26
+      - sys-img-x86-android-28
+    install:
+    - yes | sdkmanager "platforms;android-28"    
+    - echo y | sdkmanager "ndk-bundle"
+    - echo y | sdkmanager "cmake;3.6.4111459"
+    - echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404"
+    - echo y | sdkmanager "lldb;3.1"  
+    - echo y | sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
+    - echo y | sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
+    - echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+    - echo y | sdkmanager --channel=4 "emulator" >/dev/null # Use canary channel to get emulator 29.x for x86_64 image support
+    - echo y | sdkmanager "extras;android;m2repository" >/dev/null
+    - echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
+    - echo no | avdmanager create avd --force -n android -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
+    - cat test/android.config.ini >> $HOME/.android/avd/android.avd/config.ini
+    - emulator -verbose -avd android -no-accel -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
+    - android-wait-for-emulator
+    - adb shell input keyevent 82 &
+    - "export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle"
+    - npm install -g react-native-cli 
+    - npm install -g detox-cli
+    - npm install        
+    - cd test
+    # Workaround until react android issue will be fixed - react-native: 0.55
+    - npm run packager &   
+    script:
+    - CONF=android.example.ci npx mocha Detox_example_test.js
 
   allow_failures:
   - language: android
@@ -84,57 +132,6 @@ matrix:
     - detox build --configuration android.emu.ci
     script:
     - CONF=android.emu.ci npx mocha Detox_helper_test.js
-
-  - language: android
-    env:
-    - REACT_NATIVE_VERSION=0.59.4
-    - ADB_INSTALL_TIMEOUT=8
-    - ABI=x86_64
-    - API=28
-    - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
-    # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
-    - ANDROID_HOME=/usr/local/android-sdk
-    - TOOLS=${ANDROID_HOME}/tools
-    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}    
-    android:
-      components:
-      - tools
-      - platform-tools
-      - build-tools-28.0.3
-      - android-28
-      - extra-google-google_play_services
-      - extra-google-m2repository
-      - extra-android-m2repository
-      - sys-img-x86-android-26
-      - sys-img-x86-android-28
-    install:
-    - yes | sdkmanager "platforms;android-28"    
-    - echo y | sdkmanager "ndk-bundle"
-    - echo y | sdkmanager "cmake;3.6.4111459"
-    - echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404"
-    - echo y | sdkmanager "lldb;3.1"  
-    - echo y | sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
-    - echo y | sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
-    - echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
-    - echo y | sdkmanager --channel=4 "emulator" >/dev/null # Use canary channel to get emulator 29.x for x86_64 image support
-    - echo y | sdkmanager "extras;android;m2repository" >/dev/null
-    - echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
-    - echo no | avdmanager create avd --force -n android -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
-    - cat test/android.config.ini >> $HOME/.android/avd/android.avd/config.ini
-    - emulator -verbose -avd android -no-accel -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
-    - android-wait-for-emulator
-    - adb shell input keyevent 82 &
-    - "export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle"
-    - npm install -g react-native-cli 
-    - npm install -g detox-cli
-    - npm install        
-    - cd test
-    - npm install
-    - npm run packager &   
-    script:
-    - CONF=android.emu.ci npx mocha Detox_helper_test.js
-
-
 
 before_install:
 - nvm install 12
