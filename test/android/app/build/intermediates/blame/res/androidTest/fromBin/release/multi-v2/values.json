@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/davert/projects/detox-helper/test/android/app/build/intermediates/incremental/mergeFromBinReleaseAndroidTestResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/home/davert/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/8796cfc6a93b2680ee7c5415691f221a/res/values/values.xml",
+                    "from": {
+                        "startLines": "4,7,10",
+                        "startColumns": "0,0,0",
+                        "startOffsets": "176,327,474",
+                        "endLines": "6,9,12",
+                        "endColumns": "8,8,8",
+                        "endOffsets": "326,473,622"
+                    },
+                    "to": {
+                        "startLines": "3,6,9",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "98,253,404",
+                        "endLines": "5,8,11",
+                        "endColumns": "8,8,8",
+                        "endOffsets": "248,399,552"
+                    }
+                },
+                {
+                    "source": "/home/davert/.gradle/caches/transforms-1/files-1.1/detox-12.11.0.aar/7df29994ccaf3bb5dcebc934739b3712/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "42",
+                        "endOffsets": "93"
+                    }
+                }
+            ]
+        }
+    ]
+}

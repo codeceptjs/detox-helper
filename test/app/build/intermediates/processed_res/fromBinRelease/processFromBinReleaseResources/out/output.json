@@ -1,0 +1,1 @@
+[{"outputType":{"type":"PROCESSED_RES"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":1,"versionName":"1.0","enabled":true,"outputFile":"app-fromBin-release.apk","fullName":"fromBinRelease","baseName":"fromBin-release"},"path":"resources-fromBinRelease.ap_","properties":{"packageId":"com.wix.detox.test","split":"","minSdkVersion":"18"}}]

@@ -1,0 +1,4 @@
+int string app_name 0x7f010000
+int style InstrumentationActivityInvokerBootstrapActivityTheme 0x7f020000
+int style InstrumentationActivityInvokerEmptyActivityTheme 0x7f020001
+int style InstrumentationActivityInvokerFloatingActivityTheme 0x7f020002

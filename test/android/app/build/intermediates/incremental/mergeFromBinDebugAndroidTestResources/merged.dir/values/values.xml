@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Detox</string>
+    <style name="InstrumentationActivityInvokerBootstrapActivityTheme" parent="android:Theme">
+<item name="android:windowIsFloating">false</item>
+</style>
+    <style name="InstrumentationActivityInvokerEmptyActivityTheme" parent="android:Theme">
+<item name="android:windowIsFloating">false</item>
+</style>
+    <style name="InstrumentationActivityInvokerFloatingActivityTheme" parent="android:Theme">
+<item name="android:windowIsFloating">true</item>
+</style>
+</resources>

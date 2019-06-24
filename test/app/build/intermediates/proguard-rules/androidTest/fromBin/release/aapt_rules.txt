@@ -1,0 +1,8 @@
+# Referenced at /home/davert/projects/detox-helper/test/android/app/build/intermediates/merged_manifests/fromBinReleaseAndroidTest/AndroidManifest.xml:25
+-keep class androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity { <init>(); }
+# Referenced at /home/davert/projects/detox-helper/test/android/app/build/intermediates/merged_manifests/fromBinReleaseAndroidTest/AndroidManifest.xml:32
+-keep class androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity { <init>(); }
+# Referenced at /home/davert/projects/detox-helper/test/android/app/build/intermediates/merged_manifests/fromBinReleaseAndroidTest/AndroidManifest.xml:39
+-keep class androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity { <init>(); }
+# Referenced at /home/davert/projects/detox-helper/test/android/app/build/intermediates/merged_manifests/fromBinReleaseAndroidTest/AndroidManifest.xml:9
+-keep class androidx.test.runner.AndroidJUnitRunner { <init>(); }
