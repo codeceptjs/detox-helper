@@ -214,7 +214,26 @@ describe('Detox', function () {
       await I.see('Portrait', '#currentOrientation'); 
     });
   });
-  
+
+  describe('#saveScreenshot', () => {
+    it('should save screenshot', async () => {
+      await I.saveScreenshot('name');
+    })
+  })
+
+  describe('#saveScreenshot', () => {
+    beforeEach(() => {
+      global.output_dir = path.join(__dirname, '/../output');
+    });
+
+    it('should create a screenshot file in output dir', async () => {
+      const sec = (new Date()).getUTCMilliseconds();
+      await I.amOnPage('/')
+      await I.saveScreenshot(`screenshot_${sec}.png`);
+      await assert.ok(fileExists(path.join(global.output_dir, `screenshot_${sec}.png`)), null, 'file does not exists');
+    });
+  });
+
 
   describe('#wait', () => {
     beforeEach(async () => {
