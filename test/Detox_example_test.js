@@ -15,6 +15,7 @@ describe('Detox', function () {
     I = new Detox({
       configuration,
       reloadReactNative: false,
+      reuse: true,
     });
     return I._beforeSuite();
   });
