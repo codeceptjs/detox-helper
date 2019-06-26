@@ -9,19 +9,19 @@ let expect;
 let waitFor;
 
 /**
- * This is a wrapper on top of [Detox](https://github.com/wix/Detox) library by Wix aimied to unify testing experience for CodeceptJS framework.
+ * This is a wrapper on top of [Detox](https://github.com/wix/Detox) library, aimied to unify testing experience for CodeceptJS framework.
  * Detox provides a grey box testing for mobile applications, playing especially good for React Native apps.
  * 
  * Detox plays quite differently from Appium. To establish detox testing you need to build a mobile application in a special way to inject Detox code.
- * This why Detox is grey box testing, so you need an access to application source code, and a way to build and execute it on emulator.
+ * This why **Detox is grey box testing** solution, so you need an access to application source code, and a way to build and execute it on emulator.
  * 
  * Comparing to Appium, Detox runs faster and more stable but requires an additional setup for build.
  * 
  * ### Setup
  * 
- * To install and condifure Detox [see the official guide for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
- * 
- * After you performed all steps required to set up Detox by itself you are ready to configure this helper. Install it via npm:
+ * 1. [Install and configure Detox for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
+ * 2. [Build an application](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md#step-4-build-your-app-and-run-detox-tests) using `detox build` command.
+ * 3. Install [CodeceptJS](https://codecept.io) and detox-helper: 
  * 
  * ```
  * npm i @codeceptjs/detox-helper --save
@@ -29,7 +29,7 @@ let waitFor;
  * 
  * Detox configuration is required in `package.json` under `detox` section.
  * 
- * Example:
+ * If you completed step 1 and step 2 you should have a configuration similar this:
  * 
  * ```js
  *  "detox": {
@@ -44,7 +44,10 @@ let waitFor;
  *  }
  * ```
  * 
+ * 
  * ### Configuration
+ * 
+ * Besides Detox configuration, CodeceptJS should also be configured to use Detox.
  * 
  * In `codecept.conf.js` enable Detox helper:
  * 
@@ -52,7 +55,7 @@ let waitFor;
  * helpers: {
  *    Detox: {
  *      require: '@codeceptjs/detox',
- *      configuration: 'ios.sim.debug',
+ *      configuration: '<detox-configuration-name>', 
  *    }   
  * }
  * 
@@ -64,7 +67,7 @@ let waitFor;
  * 
  * * `configuration` - a detox configuration name. Required.
  * * `reloadReactNative` - should be enabled for React Native applications.
- * 
+ * * `reuse` - reuse application for tests. By default, Detox reinstalls and relaunches app.
  * 
  */
 class Detox extends Helper {
@@ -80,12 +83,14 @@ class Detox extends Helper {
   }
 
   _registerOptions() {
-    if (this.options.configuration) {
+    if (this.options.configuration && process.argv.indexOf('--configuration') < 0) {
       process.argv.push('--configuration');
       process.argv.push(this.options.configuration);
     }
-    process.argv.push('--artifacts-location');
-    process.argv.push(global.output_dir + '/');    
+    if (!process.argv.indexOf('--artifacts-location') < 0) {
+      process.argv.push('--artifacts-location');
+      process.argv.push(global.output_dir + '/');    
+    }
   }
 
   _registerGlobals() {

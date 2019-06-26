@@ -121,7 +121,7 @@ After you performed all steps required to set up Detox by itself you are ready t
 
     npm i @codeceptjs/detox-helper --save
 
-Detox configuration is required in `package.json` under `detox` section.
+Detox configuration is required in `package.json` under `detox` - `configurations` section.
 
 Example:
 
@@ -140,12 +140,12 @@ Example:
 
 #### Configuration
 
-In `codecept.conf.js` enable Detox helper:
+In `codecept.conf.js` enable Detox helper. Pass in configuration of detox into helper's parameters.
 
 ```js
 helpers: {
    Detox: {
-     require: '@codeceptjs/detox',
+     require: '@codeceptjs/detox-helper',
      configuration: 'ios.sim.debug',
    }   
 }

@@ -13,6 +13,7 @@ describe('Detox', function () {
     I = new Detox({
       configuration,
       reloadReactNative: true,
+      reuse: true,
     });
     return I._beforeSuite();
   });
