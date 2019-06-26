@@ -68,6 +68,7 @@ let waitFor;
  * * `configuration` - a detox configuration name. Required.
  * * `reloadReactNative` - should be enabled for React Native applications.
  * * `reuse` - reuse application for tests. By default, Detox reinstalls and relaunches app.
+ * * `registerGlobals` - (default: true) Register Detox helper functions `by`, `element`, `expect`, `waitFor` globally.
  * 
  */
 class Detox extends Helper {
@@ -79,7 +80,7 @@ class Detox extends Helper {
 
     detox = require('detox');
     this.device = detox.device;
-    this._registerGlobals();
+    this._useDetoxFunctions();
   }
 
   _registerOptions() {
@@ -93,11 +94,18 @@ class Detox extends Helper {
     }
   }
 
-  _registerGlobals() {
-    global.by = by = detox.by;
-    global.element = element = detox.element;
-    global.expect = expect = detox.expect;
-    global.waitFor = waitFor = detox.waitFor;
+  _useDetoxFunctions() {
+    by = detox.by;
+    element = detox.element;
+    expect = detox.expect;
+    waitFor = detox.waitFor;
+
+    if (this.options.registerGlobals) {
+      global.by = by
+      global.element = element
+      global.expect = expect
+      global.waitFor = waitFor    
+    }
   }
 
   _validateConfig(config) {
