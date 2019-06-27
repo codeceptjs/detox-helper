@@ -1,5 +1,16 @@
 const Detox = require('../Detox');
+const path = require('path');
+const assert = require('assert');
 let configuration = process.env.CONF || 'android.emu.release';
+
+const fileExists = function (filePath) {
+  try {
+    fs.statSync(filePath);
+  } catch (err) {
+    if (err.code === 'ENOENT') return false;
+  }
+  return true;
+};
 
 let I;
 
