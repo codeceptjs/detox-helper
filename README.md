@@ -37,6 +37,8 @@ CodeceptJS provides next features over standard Detox:
     -   [Setup](#setup)
     -   [Configuration](#configuration)
     -   [Parameters](#parameters)
+    -   [saveScreenshot](#savescreenshot)
+        -   [Parameters](#parameters-1)
     -   [relaunchApp](#relaunchapp)
     -   [launchApp](#launchapp)
     -   [installApp](#installapp)
@@ -45,85 +47,86 @@ CodeceptJS provides next features over standard Detox:
     -   [setLandscapeOrientation](#setlandscapeorientation)
     -   [setPortraitOrientation](#setportraitorientation)
     -   [runOnIOS](#runonios)
-        -   [Parameters](#parameters-1)
-    -   [runOnAndroid](#runonandroid)
         -   [Parameters](#parameters-2)
-    -   [tap](#tap)
+    -   [runOnAndroid](#runonandroid)
         -   [Parameters](#parameters-3)
-    -   [multiTap](#multitap)
+    -   [tap](#tap)
         -   [Parameters](#parameters-4)
-    -   [longPress](#longpress)
+    -   [multiTap](#multitap)
         -   [Parameters](#parameters-5)
-    -   [click](#click)
+    -   [longPress](#longpress)
         -   [Parameters](#parameters-6)
-    -   [clickAtPoint](#clickatpoint)
+    -   [click](#click)
         -   [Parameters](#parameters-7)
-    -   [see](#see)
+    -   [clickAtPoint](#clickatpoint)
         -   [Parameters](#parameters-8)
-    -   [dontSee](#dontsee)
+    -   [see](#see)
         -   [Parameters](#parameters-9)
-    -   [seeElement](#seeelement)
+    -   [dontSee](#dontsee)
         -   [Parameters](#parameters-10)
-    -   [dontSeeElement](#dontseeelement)
+    -   [seeElement](#seeelement)
         -   [Parameters](#parameters-11)
-    -   [seeElementExists](#seeelementexists)
+    -   [dontSeeElement](#dontseeelement)
         -   [Parameters](#parameters-12)
-    -   [dontSeeElementExists](#dontseeelementexists)
+    -   [seeElementExists](#seeelementexists)
         -   [Parameters](#parameters-13)
-    -   [fillField](#fillfield)
+    -   [dontSeeElementExists](#dontseeelementexists)
         -   [Parameters](#parameters-14)
-    -   [clearField](#clearfield)
+    -   [fillField](#fillfield)
         -   [Parameters](#parameters-15)
-    -   [appendField](#appendfield)
+    -   [clearField](#clearfield)
         -   [Parameters](#parameters-16)
-    -   [scrollUp](#scrollup)
+    -   [appendField](#appendfield)
         -   [Parameters](#parameters-17)
-    -   [scrollDown](#scrolldown)
+    -   [scrollUp](#scrollup)
         -   [Parameters](#parameters-18)
-    -   [scrollLeft](#scrollleft)
+    -   [scrollDown](#scrolldown)
         -   [Parameters](#parameters-19)
-    -   [scrollRight](#scrollright)
+    -   [scrollLeft](#scrollleft)
         -   [Parameters](#parameters-20)
-    -   [swipeUp](#swipeup)
+    -   [scrollRight](#scrollright)
         -   [Parameters](#parameters-21)
-    -   [swipeDown](#swipedown)
+    -   [swipeUp](#swipeup)
         -   [Parameters](#parameters-22)
-    -   [swipeLeft](#swipeleft)
+    -   [swipeDown](#swipedown)
         -   [Parameters](#parameters-23)
-    -   [swipeRight](#swiperight)
+    -   [swipeLeft](#swipeleft)
         -   [Parameters](#parameters-24)
-    -   [wait](#wait)
+    -   [swipeRight](#swiperight)
         -   [Parameters](#parameters-25)
-    -   [waitForElement](#waitforelement)
+    -   [wait](#wait)
         -   [Parameters](#parameters-26)
-    -   [waitForElementVisible](#waitforelementvisible)
+    -   [waitForElement](#waitforelement)
         -   [Parameters](#parameters-27)
-    -   [waitToHide](#waittohide)
+    -   [waitForElementVisible](#waitforelementvisible)
         -   [Parameters](#parameters-28)
+    -   [waitToHide](#waittohide)
+        -   [Parameters](#parameters-29)
 
 ### Detox
 
 **Extends Helper**
 
-This is a wrapper on top of [Detox](https://github.com/wix/Detox) library by Wix aimied to unify testing experience for CodeceptJS framework.
+This is a wrapper on top of [Detox](https://github.com/wix/Detox) library, aimied to unify testing experience for CodeceptJS framework.
 Detox provides a grey box testing for mobile applications, playing especially good for React Native apps.
 
 Detox plays quite differently from Appium. To establish detox testing you need to build a mobile application in a special way to inject Detox code.
-This why Detox is grey box testing, so you need an access to application source code, and a way to build and execute it on emulator.
+This why **Detox is grey box testing** solution, so you need an access to application source code, and a way to build and execute it on emulator.
 
 Comparing to Appium, Detox runs faster and more stable but requires an additional setup for build.
 
 #### Setup
 
-To install and condifure Detox [see the official guide for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
+1.  [Install and configure Detox for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
+2.  [Build an application](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md#step-4-build-your-app-and-run-detox-tests) using `detox build` command.
+3.  Install [CodeceptJS](https://codecept.io) and detox-helper: 
 
-After you performed all steps required to set up Detox by itself you are ready to configure this helper. Install it via npm:
 
     npm i @codeceptjs/detox-helper --save
 
-Detox configuration is required in `package.json` under `detox` - `configurations` section.
+Detox configuration is required in `package.json` under `detox` section.
 
-Example:
+If you completed step 1 and step 2 you should have a configuration similar this:
 
 ```js
  "detox": {
@@ -140,13 +143,15 @@ Example:
 
 #### Configuration
 
-In `codecept.conf.js` enable Detox helper. Pass in configuration of detox into helper's parameters.
+Besides Detox configuration, CodeceptJS should also be configured to use Detox.
+
+In `codecept.conf.js` enable Detox helper:
 
 ```js
 helpers: {
    Detox: {
-     require: '@codeceptjs/detox-helper',
-     configuration: 'ios.sim.debug',
+     require: '@codeceptjs/detox',
+     configuration: '<detox-configuration-name>', 
    }   
 }
 ```
@@ -157,10 +162,25 @@ Options:
 
 -   `configuration` - a detox configuration name. Required.
 -   `reloadReactNative` - should be enabled for React Native applications.
+-   `reuse` - reuse application for tests. By default, Detox reinstalls and relaunches app.
+-   `registerGlobals` - (default: true) Register Detox helper functions `by`, `element`, `expect`, `waitFor` globally.
 
 #### Parameters
 
 -   `config`  
+
+#### saveScreenshot
+
+Saves a screenshot to the output dir
+
+```js
+I.saveScreenshot('main-window.png');
+```
+
+##### Parameters
+
+-   `name`  
+-   `string`  name
 
 #### relaunchApp
 
