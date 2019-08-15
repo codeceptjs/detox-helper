@@ -54,7 +54,7 @@ let waitFor;
  * ```js
  * helpers: {
  *    Detox: {
- *      require: '@codeceptjs/detox',
+ *      require: '@codeceptjs/detox-helper',
  *      configuration: '<detox-configuration-name>', 
  *    }   
  * }
