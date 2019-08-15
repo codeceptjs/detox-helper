@@ -150,7 +150,7 @@ In `codecept.conf.js` enable Detox helper:
 ```js
 helpers: {
    Detox: {
-     require: '@codeceptjs/detox',
+     require: '@codeceptjs/detox-helper',
      configuration: '<detox-configuration-name>', 
    }   
 }
