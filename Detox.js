@@ -72,7 +72,7 @@ let waitFor;
  * 
  */
 class Detox extends Helper {
-  
+
   constructor(config) {
     super(config);
     this._setConfig(config);
@@ -90,7 +90,7 @@ class Detox extends Helper {
     }
     if (!process.argv.indexOf('--artifacts-location') < 0) {
       process.argv.push('--artifacts-location');
-      process.argv.push(global.output_dir + '/');    
+      process.argv.push(global.output_dir + '/');
     }
   }
 
@@ -104,7 +104,7 @@ class Detox extends Helper {
       global.by = by
       global.element = element
       global.expect = expect
-      global.waitFor = waitFor    
+      global.waitFor = waitFor
     }
   }
 
@@ -130,7 +130,7 @@ class Detox extends Helper {
   }
 
   async _beforeSuite() {
-    const { reuse, launchApp } = this.options;    
+    const { reuse, launchApp } = this.options;
     await detox.init(this.options, { reuse, launchApp });
 
     if (this.options.reloadReactNative) {
@@ -167,6 +167,7 @@ class Detox extends Helper {
     await detox.beforeEach({
       title: test.title,
       fullName: test.fullTitle(),
+      status: 'running',
     });
   }
 
@@ -283,12 +284,12 @@ class Detox extends Helper {
     * ```
     * @param fn a function which will be executed on iOS
     */
-   async runOnIOS(fn) {
-     if (device.getPlatform() !== 'ios') return;
-     recorder.session.start('iOS-only actions');
-     fn();
-     recorder.add('restore from iOS session', () => recorder.session.restore());
-     return recorder.promise();
+  async runOnIOS(fn) {
+    if (device.getPlatform() !== 'ios') return;
+    recorder.session.start('iOS-only actions');
+    fn();
+    recorder.add('restore from iOS session', () => recorder.session.restore());
+    return recorder.promise();
   }
 
 
@@ -303,13 +304,13 @@ class Detox extends Helper {
     * ```
     * @param fn a function which will be executed on android
     */
-   async runOnAndroid(fn) {
-     if (device.getPlatform() !== 'android') return;
-     recorder.session.start('Android-only actions');
-     fn();
-     recorder.add('restore from Android session', () => recorder.session.restore());
-     return recorder.promise();
-  }  
+  async runOnAndroid(fn) {
+    if (device.getPlatform() !== 'android') return;
+    recorder.session.start('Android-only actions');
+    fn();
+    recorder.add('restore from Android session', () => recorder.session.restore());
+    return recorder.promise();
+  }
 
 
   /**
@@ -489,7 +490,7 @@ class Detox extends Helper {
    * ```
    * @param {string|object} locator element to locate
    * @param {string|object} [context=null] context element
-   */  
+   */
   dontSeeElement(locator, context = null) {
     locator = this._detectLocator(locator);
     if (context) locator = this._detectLocator(context).withDescendant(locator);
@@ -757,7 +758,7 @@ class Detox extends Helper {
   async waitToHide(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);
   }
-  
+
   _detectLocator(locator, type = 'type') {
     if (typeof locator === 'object') {
       if (locator.android && this.device.getPlatform() === 'android') return this._detectLocator(locator.android, type);
@@ -769,14 +770,14 @@ class Detox extends Helper {
       if (locator.traits) return by.traits(locator.traits);
       return locator;
     }
-  
+
     if (locator[0] === '#') {
       return by.id(locator.slice(1));
     }
     if (locator[0] === '~') {
       return by.label(locator.slice(1));
     }
-    if (type ==='text') {
+    if (type === 'text') {
       return by.text(locator);
     }
     return by.type(locator);
