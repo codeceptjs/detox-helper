@@ -157,7 +157,7 @@ class Detox extends Helper {
   * I.saveScreenshot('main-window.png');
   * ```
   * 
-  * @param string name 
+  * @param {string} name 
   */
   async saveScreenshot(name) {
     return this.device.takeScreenshot(name);
@@ -281,7 +281,7 @@ class Detox extends Helper {
     *    I.see('Hi, IOS');
     * });
     * ```
-    * @param fn a function which will be executed on iOS
+    * @param {Function} fn a function which will be executed on iOS
     */
    async runOnIOS(fn) {
      if (device.getPlatform() !== 'ios') return;
@@ -301,7 +301,7 @@ class Detox extends Helper {
     *    I.see('Hi, Android');
     * });
     * ```
-    * @param fn a function which will be executed on android
+    * @param {Function} fn a function which will be executed on android
     */
    async runOnAndroid(fn) {
      if (device.getPlatform() !== 'android') return;
@@ -328,8 +328,8 @@ class Detox extends Helper {
    * I.tap({ ios: 'Save', android: 'SAVE' }, '#main'); // different texts on iOS and Android
    * ```
    * 
-   * @param {string|object} locator 
-   * @param {string|object} [context=null] 
+   * @param {CodeceptJS.LocatorOrString} locator 
+   * @param {CodeceptJS.LocatorOrString} [context=null] 
    */
   tap(locator, context = null) {
     return this.click(locator, context);
@@ -349,9 +349,9 @@ class Detox extends Helper {
    * I.multiTap('Update', 2, '#menu'); // locate by id
    * ```
    * 
-   * @param {string|object} locator element to locate
-   * @param {int} num number of taps 
-   * @param {string|object} [context=null] context element
+   * @param {CodeceptJS.LocatorOrString} locator element to locate
+   * @param {number} num number of taps 
+   * @param {CodeceptJS.LocatorOrString} [context=null] context element
    */
   async multiTap(locator, num, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -368,7 +368,7 @@ class Detox extends Helper {
    * I.longPress('Update', 2, '#menu'); // locate by text inside #menu, hold for 2 seconds
    * ```
    * 
-   * @param {string|object} locator element to locate
+   * @param {CodeceptJS.LocatorOrString} locator element to locate
    * @param {num} sec number of seconds to hold tap
    * @param {string|object} context context element 
    */
@@ -395,8 +395,8 @@ class Detox extends Helper {
    * I.click({ ios: 'Save', android: 'SAVE' }, '#main'); // different texts on iOS and Android
    * ```
    * 
-   * @param {string|object} locator 
-   * @param {string|object} [context=null] 
+   * @param {CodeceptJS.LocatorOrString} locator 
+   * @param {CodeceptJS.LocatorOrString} [context=null] 
    */
   async click(locator, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -413,9 +413,9 @@ class Detox extends Helper {
   * I.clickAtPoint('~save', 10, 10); // locate by accessibility id
   * ```
   * 
-  * @param {string|object} locator
-  * @param {int} [x=0] horizontal offset
-  * @param {int} [y=0] vertical offset
+  * @param {CodeceptJS.LocatorOrString} locator
+  * @param {number} [x=0] horizontal offset
+  * @param {number} [y=0] vertical offset
   * 
   */
   async clickAtPoint(locator, x = 0, y = 0) {
@@ -433,7 +433,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string} text to check visibility
-   * @param {string|object} [context=null] element inside which to search for text 
+   * @param {CodeceptJS.LocatorOrString} [context=null] element inside which to search for text 
    */
   see(text, context = null) {
     if (context) {
@@ -469,8 +469,8 @@ class Detox extends Helper {
    * I.seeElement('~edit', '#menu'); // element inside #menu
    * ```
    * 
-   * @param {string|object} locator element to locate 
-   * @param {string|object} [context=null] context element
+   * @param {CodeceptJS.LocatorOrString} locator element to locate 
+   * @param {CodeceptJS.LocatorOrString} [context=null] context element
    */
   seeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -487,8 +487,8 @@ class Detox extends Helper {
    * I.dontSeeElement('~edit'); // located by accessibility id
    * I.dontSeeElement('~edit', '#menu'); // element inside #menu
    * ```
-   * @param {string|object} locator element to locate
-   * @param {string|object} [context=null] context element
+   * @param {CodeceptJS.LocatorOrString} locator element to locate
+   * @param {CodeceptJS.LocatorOrString} [context=null] context element
    */  
   dontSeeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -505,7 +505,7 @@ class Detox extends Helper {
    * I.seeElementExists('~edit', '#menu'); // element inside #menu
    * ```
    * 
-   * @param {string|object} locator element to locate 
+   * @param {CodeceptJS.LocatorOrString} locator element to locate 
    * @param {string|object} context  context element
    */
   seeElementExists(locator, context = null) {
@@ -523,7 +523,7 @@ class Detox extends Helper {
    * I.dontSeeElementExist('~edit', '#menu'); // element inside #menu
    * ```
    * 
-   * @param {string|object} locator element to locate 
+   * @param {CodeceptJS.LocatorOrString} locator element to locate 
    * @param {string|object} context context element
    */
   dontSeeElementExists(locator, context = null) {
@@ -591,7 +591,7 @@ class Detox extends Helper {
    * I.scrollUp('#container');
    * ```
    * 
-   * @param {string|object} locator 
+   * @param {CodeceptJS.LocatorOrString} locator 
    */
   async scrollUp(locator) {
     await element(this._detectLocator(locator)).scrollTo('top');
@@ -604,7 +604,7 @@ class Detox extends Helper {
    * I.scrollDown('#container');
    * ```
    * 
-   * @param {string|object} locator 
+   * @param {CodeceptJS.LocatorOrString} locator 
    */
   async scrollDown(locator) {
     await element(this._detectLocator(locator)).scrollTo('bottom');
@@ -617,7 +617,7 @@ class Detox extends Helper {
    * I.scrollLeft('#container');
    * ```
    * 
-   * @param {string|object} locator 
+   * @param {CodeceptJS.LocatorOrString} locator 
    */
   async scrollLeft(locator) {
     await element(this._detectLocator(locator)).scrollTo('left');
@@ -631,7 +631,7 @@ class Detox extends Helper {
    * I.scrollRight('#container');
    * ```
    * 
-   * @param {string|object} locator 
+   * @param {CodeceptJS.LocatorOrString} locator 
    */
   async scrollRight(locator) {
     await element(this._detectLocator(locator)).scrollTo('right');
@@ -646,7 +646,7 @@ class Detox extends Helper {
    * I.swipeUp('#container');
    * ```
    * 
-   * @param {string|object} locator an element on which to perform swipe
+   * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeUp(locator, speed = 'slow') {
@@ -662,7 +662,7 @@ class Detox extends Helper {
    * I.swipeUp('#container');
    * ```
    * 
-   * @param {string|object} locator an element on which to perform swipe
+   * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeDown(locator, speed = 'slow') {
@@ -678,7 +678,7 @@ class Detox extends Helper {
    * I.swipeUp('#container');
    * ```
    * 
-   * @param {string|object} locator an element on which to perform swipe
+   * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeLeft(locator, speed = 'slow') {
@@ -694,7 +694,7 @@ class Detox extends Helper {
    * I.swipeUp('#container');
    * ```
    * 
-   * @param {string|object} locator an element on which to perform swipe
+   * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeRight(locator, speed = 'slow') {
@@ -708,7 +708,7 @@ class Detox extends Helper {
    * I.wait(2); // waits for 2 seconds
    * ```
    * 
-   * @param {int} sec number of seconds to wait
+   * @param {number} sec number of seconds to wait
    */
   async wait(sec) {
     return new Promise(((done) => {
@@ -723,8 +723,8 @@ class Detox extends Helper {
    * I.waitForElement('#message', 1); // wait for 1 second
    * ```
    * 
-   * @param {string|object} locator an element to wait for
-   * @param {int} [sec=5] number of seconds to wait, 5 by default
+   * @param {CodeceptJS.LocatorOrString} locator an element to wait for
+   * @param {number} [sec=5] number of seconds to wait, 5 by default
    */
   async waitForElement(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toExist().withTimeout(sec * 1000);
@@ -737,8 +737,8 @@ class Detox extends Helper {
    * I.waitForElementVisible('#message', 1); // wait for 1 second
    * ```
    * 
-   * @param {string|object} locator an element to wait for
-   * @param {int} [sec=5] number of seconds to wait
+   * @param {CodeceptJS.LocatorOrString} locator an element to wait for
+   * @param {number} [sec=5] number of seconds to wait
    */
   async waitForElementVisible(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeVisible().withTimeout(sec * 1000);
@@ -751,8 +751,8 @@ class Detox extends Helper {
    * I.waitToHide('#message', 2); // wait for 2 seconds
    * ```
    * 
-   * @param {string|object} locator  an element to wait for
-   * @param {int} [sec=5] number of seconds to wait
+   * @param {CodeceptJS.LocatorOrString} locator  an element to wait for
+   * @param {number} [sec=5] number of seconds to wait
    */
   async waitToHide(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);
