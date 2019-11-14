@@ -329,7 +329,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator 
-   * @param {CodeceptJS.LocatorOrString} [context=null] 
+   * @param {?CodeceptJS.LocatorOrString} [context=null] 
    */
   tap(locator, context = null) {
     return this.click(locator, context);
@@ -351,7 +351,7 @@ class Detox extends Helper {
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate
    * @param {number} num number of taps 
-   * @param {CodeceptJS.LocatorOrString} [context=null] context element
+   * @param {?CodeceptJS.LocatorOrString} [context=null] context element
    */
   async multiTap(locator, num, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -369,8 +369,8 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate
-   * @param {num} sec number of seconds to hold tap
-   * @param {string|object} context context element 
+   * @param {number} sec number of seconds to hold tap
+   * @param {CodeceptJS.LocatorOrString} context context element 
    */
   async longPress(locator, sec, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -396,7 +396,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator 
-   * @param {CodeceptJS.LocatorOrString} [context=null] 
+   * @param {?CodeceptJS.LocatorOrString} [context=null] 
    */
   async click(locator, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -433,7 +433,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string} text to check visibility
-   * @param {CodeceptJS.LocatorOrString} [context=null] element inside which to search for text 
+   * @param {?CodeceptJS.LocatorOrString} [context=null] element inside which to search for text 
    */
   see(text, context = null) {
     if (context) {
@@ -470,7 +470,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate 
-   * @param {CodeceptJS.LocatorOrString} [context=null] context element
+   * @param {?CodeceptJS.LocatorOrString} [context=null] context element
    */
   seeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -488,7 +488,7 @@ class Detox extends Helper {
    * I.dontSeeElement('~edit', '#menu'); // element inside #menu
    * ```
    * @param {CodeceptJS.LocatorOrString} locator element to locate
-   * @param {CodeceptJS.LocatorOrString} [context=null] context element
+   * @param {?CodeceptJS.LocatorOrString} [context=null] context element
    */  
   dontSeeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -506,7 +506,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate 
-   * @param {string|object} context  context element
+   * @param {CodeceptJS.LocatorOrString} context  context element
    */
   seeElementExists(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -524,7 +524,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate 
-   * @param {string|object} context context element
+   * @param {CodeceptJS.LocatorOrString} context context element
    */
   dontSeeElementExists(locator, context = null) {
     locator = this._detectLocator(locator);
