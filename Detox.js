@@ -369,7 +369,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string|object} locator element to locate
-   * @param {num} sec number of seconds to hold tap
+   * @param {number} sec number of seconds to hold tap
    * @param {string|object} context context element 
    */
   async longPress(locator, sec, context = null) {
