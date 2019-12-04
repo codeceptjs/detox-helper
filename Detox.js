@@ -350,7 +350,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string|object} locator element to locate
-   * @param {int} num number of taps 
+   * @param {number} num number of taps 
    * @param {string|object} [context=null] context element
    */
   async multiTap(locator, num, context = null) {
@@ -369,7 +369,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string|object} locator element to locate
-   * @param {num} sec number of seconds to hold tap
+   * @param {number} sec number of seconds to hold tap
    * @param {string|object} context context element 
    */
   async longPress(locator, sec, context = null) {
@@ -414,9 +414,8 @@ class Detox extends Helper {
   * ```
   * 
   * @param {string|object} locator
-  * @param {int} [x=0] horizontal offset
-  * @param {int} [y=0] vertical offset
-  * 
+  * @param {number} [x=0] horizontal offset
+  * @param {number} [y=0] vertical offset
   */
   async clickAtPoint(locator, x = 0, y = 0) {
     await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
@@ -708,7 +707,7 @@ class Detox extends Helper {
    * I.wait(2); // waits for 2 seconds
    * ```
    * 
-   * @param {int} sec number of seconds to wait
+   * @param {number} sec number of seconds to wait
    */
   async wait(sec) {
     return new Promise(((done) => {
@@ -724,7 +723,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string|object} locator an element to wait for
-   * @param {int} [sec=5] number of seconds to wait, 5 by default
+   * @param {number} [sec=5] number of seconds to wait, 5 by default
    */
   async waitForElement(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toExist().withTimeout(sec * 1000);
@@ -738,7 +737,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string|object} locator an element to wait for
-   * @param {int} [sec=5] number of seconds to wait
+   * @param {number} [sec=5] number of seconds to wait
    */
   async waitForElementVisible(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeVisible().withTimeout(sec * 1000);
@@ -752,7 +751,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string|object} locator  an element to wait for
-   * @param {int} [sec=5] number of seconds to wait
+   * @param {number} [sec=5] number of seconds to wait
    */
   async waitToHide(locator, sec = 5) {
     return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);
