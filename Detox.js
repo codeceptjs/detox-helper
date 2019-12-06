@@ -370,7 +370,7 @@ class Detox extends Helper {
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate
    * @param {number} sec number of seconds to hold tap
-   * @param {CodeceptJS.LocatorOrString} context context element 
+   * @param {CodeceptJS.LocatorOrString} [context=null] context element 
    */
   async longPress(locator, sec, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -452,7 +452,7 @@ class Detox extends Helper {
    * I.dontSee('Record deleted', '~message');
    * ```
    * @param {string} text to check invisibility
-   * @param {string|object} context element in which to search for text
+   * @param {string|object} [context=null] element in which to search for text
    */
   dontSee(text, context = null) {
     let locator = by.text(text);
@@ -506,7 +506,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate 
-   * @param {CodeceptJS.LocatorOrString} context  context element
+   * @param {CodeceptJS.LocatorOrString} [context=null]  context element
    */
   seeElementExists(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -524,7 +524,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate 
-   * @param {CodeceptJS.LocatorOrString} context context element
+   * @param {CodeceptJS.LocatorOrString} [context=null] context element
    */
   dontSeeElementExists(locator, context = null) {
     locator = this._detectLocator(locator);
