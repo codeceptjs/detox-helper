@@ -417,7 +417,6 @@ class Detox extends Helper {
   * @param {CodeceptJS.LocatorOrString} locator
   * @param {number} [x=0] horizontal offset
   * @param {number} [y=0] vertical offset
-  * 
   */
   async clickAtPoint(locator, x = 0, y = 0) {
     await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
