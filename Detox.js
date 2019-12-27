@@ -330,7 +330,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator 
-   * @param {?CodeceptJS.LocatorOrString} [context=null] 
+   * @param {CodeceptJS.LocatorOrString | null} [context=null] 
    */
   tap(locator, context = null) {
     return this.click(locator, context);
@@ -397,7 +397,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator 
-   * @param {?CodeceptJS.LocatorOrString} [context=null] 
+   * @param {CodeceptJS.LocatorOrString | null} [context=null] 
    */
   async click(locator, context = null) {
     locator = this._detectLocator(locator, 'text');
@@ -434,7 +434,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {string} text to check visibility
-   * @param {?CodeceptJS.LocatorOrString} [context=null] element inside which to search for text 
+   * @param {CodeceptJS.LocatorOrString | null} [context=null] element inside which to search for text 
    */
   see(text, context = null) {
     if (context) {
@@ -471,7 +471,7 @@ class Detox extends Helper {
    * ```
    * 
    * @param {CodeceptJS.LocatorOrString} locator element to locate 
-   * @param {?CodeceptJS.LocatorOrString} [context=null] context element
+   * @param {CodeceptJS.LocatorOrString | null} [context=null] context element
    */
   seeElement(locator, context = null) {
     locator = this._detectLocator(locator);
@@ -543,7 +543,7 @@ class Detox extends Helper {
    * I.fillField({ android: 'NAME', ios: 'name' }, 'davert');
    * ```
    * 
-   * @param {string|object} field an input element to fill in
+   * @param {CodeceptJS.LocatorOrString} field an input element to fill in
    * @param {string} value value to fill 
    */
   async fillField(field, value) {
@@ -560,7 +560,7 @@ class Detox extends Helper {
    * I.clearField('~name');
    * ``` 
    * 
-   * @param {string|object} field an input element to clear
+   * @param {CodeceptJS.LocatorOrString} field an input element to clear
    */
   async clearField(field) {
     const locator = this._detectLocator(field, 'text');
@@ -576,7 +576,7 @@ class Detox extends Helper {
    * I.appendField('name', 'davert');
    * ```
    * 
-   * @param {string|object} field 
+   * @param {CodeceptJS.LocatorOrString} field 
    * @param {string} value 
    */
   async appendField(field, value) {
