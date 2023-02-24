@@ -111,7 +111,7 @@ class Detox extends Helper {
     const defaults = {
       launchApp: true,
       reuse: false,
-      reloadReactNative: true,
+      reloadReactNative: false,
     };
 
     const detoxConf = require(path.join(global.codecept_dir, 'package.json')).detox;
@@ -145,7 +145,7 @@ class Detox extends Helper {
     if (this.options.reloadReactNative) {
       await this.device.reloadReactNative();
     } else {
-      await this.device.launchApp({ newInstance: true, delete: true });
+      await this.device.launchApp({ newInstance: true });
     }
   }
 
