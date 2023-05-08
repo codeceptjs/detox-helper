@@ -117,8 +117,8 @@ Comparing to Appium, Detox runs faster and more stable but requires an additiona
 
 #### Setup
 
-1.  [Install and configure Detox for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
-2.  [Build an application](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md#step-4-build-your-app-and-run-detox-tests) using `detox build` command.
+1.  [Install and configure Detox for iOS and Android](https://wix.github.io/Detox/docs/introduction/getting-started/)
+2.  [Build an application](https://wix.github.io/Detox/docs/introduction/your-first-test) using `detox build` command.
 3.  Install [CodeceptJS](https://codecept.io) and detox-helper: 
 
 
