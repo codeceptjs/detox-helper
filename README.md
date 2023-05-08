@@ -551,7 +551,7 @@ I.scrollRight('#container');
 
 #### swipeUp
 
-Performs a swipe up inside an element.
+Performs a scroll down inside an element.
 Can be `slow` or `fast` swipe.
 
 ```js
@@ -565,7 +565,7 @@ I.swipeUp('#container');
 
 #### swipeDown
 
-Performs a swipe up inside an element.
+Performs a scroll up inside an element.
 Can be `slow` or `fast` swipe.
 
 ```js
