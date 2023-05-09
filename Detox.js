@@ -1,5 +1,4 @@
-const Helper = require('codeceptjs').helper;
-const recorder = require('codeceptjs').recorder;
+const { recorder } = require('codeceptjs');
 const path = require('path');
 
 let detox;
@@ -13,7 +12,7 @@ let waitFor;
  * Detox provides a grey box testing for mobile applications, playing especially good for React Native apps.
  * 
  * Detox plays quite differently from Appium. To establish detox testing you need to build a mobile application in a special way to inject Detox code.
- * This why **Detox is grey box testing** solution, so you need an access to application source code, and a way to build and execute it on emulator.
+ * This why **Detox is grey box testing** solution, so you need access to application source code, and a way to build and execute it on emulator.
  * 
  * Comparing to Appium, Detox runs faster and more stable but requires an additional setup for build.
  * 
@@ -406,6 +405,27 @@ class Detox extends Helper {
   }
 
   /**
+   * Clicks on an element. 
+   * Element can be located by its label
+   * 
+   * The second parameter is a context (id | type | accessibility id) to narrow the search.
+   * 
+   * 
+   * ```js
+   * I.tapByLabel('Login'); // locate by text
+   * I.tapByLabel('Login', '#nav'); // locate by text inside #nav
+   * ```
+   * 
+   * @param {CodeceptJS.LocatorOrString} locator 
+   * @param {CodeceptJS.LocatorOrString | null} [context=null] 
+   */
+  async tapByLabel(locator, context = null) {
+    locator = this._detectLocator(locator, 'label');
+    if (context) locator = this._detectLocator(context).withDescendant(locator);
+    await element(locator).tap();
+  }
+
+  /**
   * Performs click on element with horizontal and vertical offset.
   * An element is located by text, id, accessibility id.
   * 
@@ -478,6 +498,23 @@ class Detox extends Helper {
     return expect(element(locator)).toBeVisible();
   }
 
+  /**
+   * Checks if an element exists.
+   * 
+   * ```js
+   * I.checkIfElementExists('~edit'); // located by accessibility id
+   * I.checkIfElementExists('~edit', '#menu'); // element inside #menu
+   * ```
+   * 
+   * @param {CodeceptJS.LocatorOrString} locator element to locate 
+   * @param {CodeceptJS.LocatorOrString | null} [context=null] context element
+   */
+  checkIfElementExists(locator, context = null) {
+    locator = this._detectLocator(locator);
+    if (context) locator = this._detectLocator(context).withDescendant(locator);
+    if (element(locator)) return true;
+    return false;
+  }
 
   /**
    * Checks that element is not visible.
@@ -549,6 +586,23 @@ class Detox extends Helper {
     const locator = this._detectLocator(field, 'text');
     await element(locator).tap();
     await element(locator).replaceText(value);
+  }
+
+  /**
+   * Taps return key.
+   * A field can be located by text, accessibility id, id.
+   * 
+   * ```js
+   * I.tapReturnKey('Username');
+   * I.tapReturnKey('~name');
+   * I.tapReturnKey({ android: 'NAME', ios: 'name' });
+   * ```
+   * 
+   * @param {CodeceptJS.LocatorOrString} field an input element to fill in
+   */
+  async tapReturnKey(field) {
+    const locator = this._detectLocator(field);
+    await element(locator).tapReturnKey()
   }
 
   /**
@@ -778,6 +832,9 @@ class Detox extends Helper {
     }
     if (type === 'text') {
       return by.text(locator);
+    }
+    if (type === 'label') {
+      return by.label(locator);
     }
     return by.type(locator);
   }
