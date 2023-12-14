@@ -2,6 +2,7 @@ const { recorder } = require('codeceptjs');
 const path = require('path');
 
 let detox;
+let detoxInternal;
 let by;
 let element;
 let expect;
@@ -77,6 +78,7 @@ class Detox extends Helper {
     this._setConfig(config);
     this._registerOptions();
 
+    detoxInternal = require('detox/internals');
     detox = require('detox');
     this.device = detox.device;
     this._useDetoxFunctions();
@@ -130,15 +132,21 @@ class Detox extends Helper {
 
   async _beforeSuite() {
     const { reuse, launchApp } = this.options;
-    await detox.init(this.options, { reuse, launchApp });
-
+    await detoxInternal.init({
+      argv: {
+        configuration: this.options.configuration
+      },
+      testRunnerArgv: {
+        reuse, launchApp, require
+      }
+    });
     if (this.options.reloadReactNative) {
       return this.device.launchApp({ newInstance: true });
     }
   }
 
   async _afterSuite() {
-    await detox.cleanup();
+    await detoxInternal.cleanup();
   }
 
   async _before(test) {
@@ -171,7 +179,7 @@ class Detox extends Helper {
   }
 
   async _passed(test) {
-    await detox.afterEach({
+    await detoxInternal.onTestDone({
       title: test.title,
       fullName: test.fullTitle(),
       status: 'passed',
@@ -179,7 +187,7 @@ class Detox extends Helper {
   }
 
   async _failed(test) {
-    await detox.afterEach({
+    await detoxInternal.onTestDone({
       title: test.title,
       fullName: test.fullTitle(),
       status: 'failed',
