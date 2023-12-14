@@ -1,4 +1,4 @@
-const { recorder } = require('codeceptjs');
+const { recorder, Helper } = require('codeceptjs');
 const path = require('path');
 
 let detox;
