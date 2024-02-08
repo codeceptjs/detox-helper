@@ -1,6 +1,6 @@
 {
   "name": "detox-test",
-  "version": "12.11.0",
+  "version": "19.13.0",
   "private": true,
   "engines": {
     "node": ">=8.3.0"
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "moment": "^2.29.4",
-    "detox": "^12.11.0",
+    "detox": "19.13.0",
     "react": "16.8.3",
     "react-native": "0.62.3"
   },
@@ -97,7 +97,7 @@
         "build": "cd android && ./gradlew assembleFromBinDebug && cd ..",
         "type": "android.emulator",
         "name": "android"
-      }      
+      }
     }
   }
 }

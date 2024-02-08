@@ -9,24 +9,24 @@
     "release": "npm run docs && npm publish --access public"
   },
   "files": [
-    "./Detox.js"
+    "./Detox.js", "README.md"
   ],
   "directories": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Codeception/detox-helper.git"
+    "url": "git+https://github.com/codeceptjs/detox-helper.git"
   },
   "author": "Michael Bodnarchuk @davert",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Codeception/detox-helper/issues"
+    "url": "https://github.com/codeceptjs/detox-helper/issues"
   },
-  "homepage": "https://github.com/Codeception/detox-helper#readme",
+  "homepage": "https://github.com/codeceptjs/detox-helper#readme",
   "dependencies": {
     "detox": "19.13.0"
   },
   "devDependencies": {
-    "codeceptjs": "3.5.11",
+    "codeceptjs": "3.5.12",
     "documentation": "11.0.1"
   }
 }
