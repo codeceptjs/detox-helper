@@ -27,7 +27,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "express": "^4.15.3",
-    "jest": "24.6.x",
+    "jest": "29.7.x",
     "lodash": "^4.17.21",
     "mocha": "^6.1.4",
     "nyc": "^14.0.0"
