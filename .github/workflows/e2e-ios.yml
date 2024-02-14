@@ -11,6 +11,8 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
+
+      - name: install deps
         run: npm i --force
 
       - name: Install macOS dependencies
