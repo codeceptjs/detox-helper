@@ -4,6 +4,7 @@ output
 .idea
 test/android/app/build
 test/node_modules
+test/android/gradle
 
 test/ios/Pods
 test/ios/build

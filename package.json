@@ -9,7 +9,8 @@
     "release": "npm run docs && npm publish --access public"
   },
   "files": [
-    "./Detox.js",
+    "Detox.js",
+    "constant.js",
     "README.md"
   ],
   "directories": {},
