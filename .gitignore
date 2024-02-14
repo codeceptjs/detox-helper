@@ -9,8 +9,10 @@ test/ios/Pods
 test/ios/build
 test/ios/MyTestApp
 test/ios/MyTestAppTests
+test/ios/Pods/Podfile.lock
 
 test/package-lock.json
 test/yarn.lock
 
 test/output
+test/Gemfile.lock
