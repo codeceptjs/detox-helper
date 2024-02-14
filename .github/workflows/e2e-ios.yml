@@ -11,6 +11,7 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
+        run: npm i --force
 
       - name: Install macOS dependencies
         run: |
@@ -37,7 +38,7 @@ jobs:
 
       - name: Install CocoaPods
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
-        run: cd test/ios ; pod install --verbose
+        run: npm i --force; cd test/ios ; pod install --verbose
 
       - name: Detox rebuild framework cache
         run: npx detox rebuild-framework-cache
