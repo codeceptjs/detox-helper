@@ -26,6 +26,10 @@
       "ios.sim.debug": {
         "device": "simulator",
         "app": "ios.debug"
+      },
+      "android.emu.debug": {
+        "device": "emulator",
+        "app": "android.debug"
       }
     },
     "apps": {
@@ -33,6 +37,11 @@
         "type": "ios.app",
         "binaryPath": "../test/ios/build/Build/Products/Debug-iphonesimulator/MyTestApp.app",
         "build": "xcodebuild -workspace ../test/ios/MyTestApp.xcworkspace -scheme MyTestApp -configuration Debug -sdk iphonesimulator -derivedDataPath ../test/ios/build"
+      },
+      "android.debug": {
+        "type": "android.apk",
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+        "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug"
       }
     },
     "devices": {
@@ -40,6 +49,12 @@
         "type": "ios.simulator",
         "device": {
           "type": "iPhone 15"
+        }
+      },
+      "emulator": {
+        "type": "android.emulator",
+        "device": {
+          "avdName": "Nexus_5X_API_34"
         }
       }
     }
