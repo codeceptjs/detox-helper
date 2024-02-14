@@ -47,7 +47,7 @@ jobs:
           api-level: 31
           arch: x86_64
           avd-name: ${{ steps.device.outputs.AVD_NAME }}
-          script: yarn detox test --configuration android.emu.debug --headless --record-logs all
+          script: cd test && npm i --force && npx codeceptjs run --verbose
 
       - name: Upload artifacts
         if: failure()
