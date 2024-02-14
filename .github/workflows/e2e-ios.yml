@@ -12,9 +12,6 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
 
-      - name: Install Yarn dependencies
-        run: yarn --frozen-lockfile --prefer-offline
-
       - name: Install macOS dependencies
         run: |
           brew tap wix/brew
@@ -43,7 +40,7 @@ jobs:
         run: cd test/ios ; pod install --verbose
 
       - name: Detox rebuild framework cache
-        run: yarn detox rebuild-framework-cache
+        run: npx detox rebuild-framework-cache
 
       - name: Cache Detox build
         id: cache-detox-build
@@ -55,10 +52,10 @@ jobs:
             ${{ runner.os }}-detox-build
 
       - name: Detox build
-        run: yarn detox build --configuration ios.sim.debug
+        run: npx detox build --configuration ios.sim.debug
 
       - name: Detox test
-        run: yarn detox test --configuration ios.sim.debug --cleanup --headless --record-logs all
+        run: npx detox test --configuration ios.sim.debug --cleanup --headless --record-logs all
 
       - name: Upload artifacts
         if: failure()
