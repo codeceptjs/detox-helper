@@ -40,7 +40,7 @@ jobs:
 
       - name: Install CocoaPods
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
-        run: cd test/ios ; pod install ; cd -
+        run: cd test/ios ; pod install --verbose
 
       - name: Detox rebuild framework cache
         run: yarn detox rebuild-framework-cache
