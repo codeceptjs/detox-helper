@@ -1,5 +1,0 @@
-com.wix.detox.test.test
-string app_name
-style InstrumentationActivityInvokerBootstrapActivityTheme
-style InstrumentationActivityInvokerEmptyActivityTheme
-style InstrumentationActivityInvokerFloatingActivityTheme

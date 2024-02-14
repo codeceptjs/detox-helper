@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Wed Jun 12 09:04:40 EEST 2019
-0.baseType=DIRECTORY
-0.base=/home/davert/projects/detox-helper/test/android/app/build/intermediates/dex/fromBinDebugAndroidTest/mergeDexFromBinDebugAndroidTest/out
-0.path=classes.dex
-0.set=DEX
-count=1

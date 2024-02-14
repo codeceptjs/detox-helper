@@ -20,6 +20,31 @@ I.runOnIOS(() => {
 });
 ```
 
+Example output:
+
+    CodeceptJS v3.5.12 #StandWithUkraine
+    Using test root "/Users/t/Desktop/projects/detox-helper/test"
+    Helpers: Detox
+    Plugins: screenshotOnFail
+
+    Starter --
+        [1]  Starting recording promises
+        Timeouts: 
+    12:08:18.693 detox[70751] i org.reactjs.native.example.MyTestApp launched. To watch simulator logs, run:
+            /usr/bin/xcrun simctl spawn 2A7CB01D-1AAF-4AB6-8236-163E1701D21A log stream --level debug --style compact --predicate 'process == "MyTestApp"'
+    12:08:20.542 detox[70751] i   App started
+    12:08:20.908 detox[70751] i     I see "Welcome to
+    React Native"
+    12:08:20.919 detox[70751] i   ✔ OK in 17ms
+    12:08:20.919 detox[70751] i 
+    12:08:20.922 detox[70751] i   Get plaform
+    12:08:21.274 detox[70751] i     I grab platform 
+    12:08:21.274 detox[70751] i ios
+    12:08:21.274 detox[70751] i   ✔ OK in 4ms
+    12:08:21.275 detox[70751] i 
+    12:08:21.310 detox[70751] i 
+    12:08:21.312 detox[70751] i   OK  | 2 passed   // 14s
+
 CodeceptJS provides next features over standard Detox:
 
 -   **Unified API**. The same test can be executed in Appium or Detox. Unified API helps different teams to use the same syntax and easy port tests from one engine to another.
@@ -46,6 +71,7 @@ CodeceptJS provides next features over standard Detox:
     -   [goBack](#goback)
     -   [setLandscapeOrientation](#setlandscapeorientation)
     -   [setPortraitOrientation](#setportraitorientation)
+    -   [grabPlatform](#grabplatform)
     -   [runOnIOS](#runonios)
         -   [Parameters](#parameters-2)
     -   [runOnAndroid](#runonandroid)
@@ -58,50 +84,58 @@ CodeceptJS provides next features over standard Detox:
         -   [Parameters](#parameters-6)
     -   [click](#click)
         -   [Parameters](#parameters-7)
-    -   [clickAtPoint](#clickatpoint)
+    -   [tapByLabel](#tapbylabel)
         -   [Parameters](#parameters-8)
-    -   [see](#see)
+    -   [clickAtPoint](#clickatpoint)
         -   [Parameters](#parameters-9)
-    -   [dontSee](#dontsee)
+    -   [see](#see)
         -   [Parameters](#parameters-10)
-    -   [seeElement](#seeelement)
+    -   [dontSee](#dontsee)
         -   [Parameters](#parameters-11)
-    -   [dontSeeElement](#dontseeelement)
+    -   [seeElement](#seeelement)
         -   [Parameters](#parameters-12)
-    -   [seeElementExists](#seeelementexists)
+    -   [checkIfElementExists](#checkifelementexists)
         -   [Parameters](#parameters-13)
-    -   [dontSeeElementExists](#dontseeelementexists)
+    -   [dontSeeElement](#dontseeelement)
         -   [Parameters](#parameters-14)
-    -   [fillField](#fillfield)
+    -   [seeElementExists](#seeelementexists)
         -   [Parameters](#parameters-15)
-    -   [clearField](#clearfield)
+    -   [dontSeeElementExists](#dontseeelementexists)
         -   [Parameters](#parameters-16)
-    -   [appendField](#appendfield)
+    -   [fillField](#fillfield)
         -   [Parameters](#parameters-17)
-    -   [scrollUp](#scrollup)
+    -   [tapReturnKey](#tapreturnkey)
         -   [Parameters](#parameters-18)
-    -   [scrollDown](#scrolldown)
+    -   [clearField](#clearfield)
         -   [Parameters](#parameters-19)
-    -   [scrollLeft](#scrollleft)
+    -   [appendField](#appendfield)
         -   [Parameters](#parameters-20)
-    -   [scrollRight](#scrollright)
+    -   [scrollUp](#scrollup)
         -   [Parameters](#parameters-21)
-    -   [swipeUp](#swipeup)
+    -   [scrollDown](#scrolldown)
         -   [Parameters](#parameters-22)
-    -   [swipeDown](#swipedown)
+    -   [scrollLeft](#scrollleft)
         -   [Parameters](#parameters-23)
-    -   [swipeLeft](#swipeleft)
+    -   [scrollRight](#scrollright)
         -   [Parameters](#parameters-24)
-    -   [swipeRight](#swiperight)
+    -   [swipeUp](#swipeup)
         -   [Parameters](#parameters-25)
-    -   [wait](#wait)
+    -   [swipeDown](#swipedown)
         -   [Parameters](#parameters-26)
-    -   [waitForElement](#waitforelement)
+    -   [swipeLeft](#swipeleft)
         -   [Parameters](#parameters-27)
-    -   [waitForElementVisible](#waitforelementvisible)
+    -   [swipeRight](#swiperight)
         -   [Parameters](#parameters-28)
-    -   [waitToHide](#waittohide)
+    -   [wait](#wait)
         -   [Parameters](#parameters-29)
+    -   [waitForElement](#waitforelement)
+        -   [Parameters](#parameters-30)
+    -   [waitForElementVisible](#waitforelementvisible)
+        -   [Parameters](#parameters-31)
+    -   [waitToHide](#waittohide)
+        -   [Parameters](#parameters-32)
+    -   [scrollToElement](#scrolltoelement)
+        -   [Parameters](#parameters-33)
 
 ### Detox
 
@@ -111,15 +145,15 @@ This is a wrapper on top of [Detox](https://github.com/wix/Detox) library, aimie
 Detox provides a grey box testing for mobile applications, playing especially good for React Native apps.
 
 Detox plays quite differently from Appium. To establish detox testing you need to build a mobile application in a special way to inject Detox code.
-This why **Detox is grey box testing** solution, so you need an access to application source code, and a way to build and execute it on emulator.
+This why **Detox is grey box testing** solution, so you need access to application source code, and a way to build and execute it on emulator.
 
 Comparing to Appium, Detox runs faster and more stable but requires an additional setup for build.
 
 #### Setup
 
-1.  [Install and configure Detox for iOS and Android](https://wix.github.io/Detox/docs/introduction/getting-started/)
-2.  [Build an application](https://wix.github.io/Detox/docs/introduction/your-first-test) using `detox build` command.
-3.  Install [CodeceptJS](https://codecept.io) and detox-helper: 
+1.  [Install and configure Detox](https://wix.github.io/Detox/docs/introduction/project-setup)
+2.  [Build an application](https://wix.github.io/Detox/docs/introduction/project-setup#step-5-build-the-app) using `detox build` command.
+3.  Install [CodeceptJS](https://codecept.io) and detox-helper:
 
 
     npm i @codeceptjs/detox-helper --save
@@ -130,15 +164,28 @@ If you completed step 1 and step 2 you should have a configuration similar this:
 
 ```js
  "detox": {
-   "configurations": {
-     "ios.sim.debug": {
-       "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/example.app",
-       "build": "xcodebuild -project ios/example.xcodeproj -scheme example -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-       "type": "ios.simulator",
-       "name": "iPhone 7"
-     }
-   }
- }
+    "configurations": {
+      "ios.sim.debug": {
+        "device": "simulator",
+        "app": "ios.debug"
+      }
+    },
+    "apps": {
+      "ios.debug": {
+        "type": "ios.app",
+        "binaryPath": "../test/ios/build/Build/Products/Debug-iphonesimulator/MyTestApp.app",
+        "build": "xcodebuild -workspace ../test/ios/MyTestApp.xcworkspace -scheme MyTestApp -configuration Debug -sdk iphonesimulator -derivedDataPath ../test/ios/build"
+      }
+    },
+    "devices": {
+      "simulator": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 15"
+        }
+      }
+    }
+  }
 ```
 
 #### Configuration
@@ -151,8 +198,8 @@ In `codecept.conf.js` enable Detox helper:
 helpers: {
    Detox: {
      require: '@codeceptjs/detox-helper',
-     configuration: '<detox-configuration-name>', 
-   }   
+     configuration: '<detox-configuration-name>',
+   }
 }
 ```
 
@@ -179,8 +226,7 @@ I.saveScreenshot('main-window.png');
 
 ##### Parameters
 
--   `name`  
--   `string`  name
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### relaunchApp
 
@@ -239,6 +285,14 @@ Switches device to portrait orientation
 I.setPortraitOrientation();
 ```
 
+#### grabPlatform
+
+Grab the device platform
+
+```js
+const platform = await I.grabPlatform();
+```
+
 #### runOnIOS
 
 Execute code only on iOS
@@ -252,7 +306,7 @@ I.runOnIOS(() => {
 
 ##### Parameters
 
--   `fn`  a function which will be executed on iOS
+-   `fn` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** a function which will be executed on iOS
 
 #### runOnAndroid
 
@@ -267,11 +321,11 @@ I.runOnAndroid(() => {
 
 ##### Parameters
 
--   `fn`  a function which will be executed on android
+-   `fn` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** a function which will be executed on android
 
 #### tap
 
-Taps on an element. 
+Taps on an element.
 Element can be located by its text or id or accessibility id.
 
 The second parameter is a context element to narrow the search.
@@ -288,8 +342,8 @@ I.tap({ ios: 'Save', android: 'SAVE' }, '#main'); // different texts on iOS and 
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))**  (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** 
+-   `context` **(CodeceptJS.LocatorOrString | null)**  (optional, default `null`)
 
 #### multiTap
 
@@ -308,9 +362,9 @@ I.multiTap('Update', 2, '#menu'); // locate by id
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element to locate
--   `num` **int** number of taps
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** context element (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `num` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** number of taps
+-   `context` **(CodeceptJS.LocatorOrString | null)** context element (optional, default `null`)
 
 #### longPress
 
@@ -324,13 +378,13 @@ I.longPress('Update', 2, '#menu'); // locate by text inside #menu, hold for 2 se
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element to locate
--   `sec` **num** number of seconds to hold tap
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** context element (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `sec` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** number of seconds to hold tap
+-   `context` **(CodeceptJS.LocatorOrString | null)** context element (optional, default `null`)
 
 #### click
 
-Clicks on an element. 
+Clicks on an element.
 Element can be located by its text or id or accessibility id
 
 The second parameter is a context (id | type | accessibility id) to narrow the search.
@@ -347,8 +401,25 @@ I.click({ ios: 'Save', android: 'SAVE' }, '#main'); // different texts on iOS an
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))**  (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** 
+-   `context` **(CodeceptJS.LocatorOrString | null)**  (optional, default `null`)
+
+#### tapByLabel
+
+Clicks on an element.
+Element can be located by its label
+
+The second parameter is a context (id | type | accessibility id) to narrow the search.
+
+```js
+I.tapByLabel('Login'); // locate by text
+I.tapByLabel('Login', '#nav'); // locate by text inside #nav
+```
+
+##### Parameters
+
+-   `locator` **CodeceptJS.LocatorOrString** 
+-   `context` **(CodeceptJS.LocatorOrString | null)**  (optional, default `null`)
 
 #### clickAtPoint
 
@@ -362,9 +433,9 @@ I.clickAtPoint('~save', 10, 10); // locate by accessibility id
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
--   `x` **int** horizontal offset (optional, default `0`)
--   `y` **int** vertical offset (optional, default `0`)
+-   `locator` **CodeceptJS.LocatorOrString** 
+-   `x` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** horizontal offset (optional, default `0`)
+-   `y` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** vertical offset (optional, default `0`)
 
 #### see
 
@@ -380,7 +451,7 @@ I.see('Record deleted', '~message');
 ##### Parameters
 
 -   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** to check visibility
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element inside which to search for text (optional, default `null`)
+-   `context` **(CodeceptJS.LocatorOrString | null)** element inside which to search for text (optional, default `null`)
 
 #### dontSee
 
@@ -396,7 +467,7 @@ I.dontSee('Record deleted', '~message');
 ##### Parameters
 
 -   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** to check invisibility
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element in which to search for text (optional, default `null`)
+-   `context` **(CodeceptJS.LocatorOrString | null)** element in which to search for text (optional, default `null`)
 
 #### seeElement
 
@@ -410,8 +481,22 @@ I.seeElement('~edit', '#menu'); // element inside #menu
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element to locate
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** context element (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `context` **(CodeceptJS.LocatorOrString | null)** context element (optional, default `null`)
+
+#### checkIfElementExists
+
+Checks if an element exists.
+
+```js
+I.checkIfElementExists('~edit'); // located by accessibility id
+I.checkIfElementExists('~edit', '#menu'); // element inside #menu
+```
+
+##### Parameters
+
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `context` **(CodeceptJS.LocatorOrString | null)** context element (optional, default `null`)
 
 #### dontSeeElement
 
@@ -425,8 +510,8 @@ I.dontSeeElement('~edit', '#menu'); // element inside #menu
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element to locate
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** context element (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `context` **(CodeceptJS.LocatorOrString | null)** context element (optional, default `null`)
 
 #### seeElementExists
 
@@ -440,8 +525,8 @@ I.seeElementExists('~edit', '#menu'); // element inside #menu
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element to locate
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** context element (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `context` **CodeceptJS.LocatorOrString** context element (optional, default `null`)
 
 #### dontSeeElementExists
 
@@ -455,8 +540,8 @@ I.dontSeeElementExist('~edit', '#menu'); // element inside #menu
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** element to locate
--   `context` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** context element (optional, default `null`)
+-   `locator` **CodeceptJS.LocatorOrString** element to locate
+-   `context` **CodeceptJS.LocatorOrString** context element (optional, default `null`)
 
 #### fillField
 
@@ -471,8 +556,23 @@ I.fillField({ android: 'NAME', ios: 'name' }, 'davert');
 
 ##### Parameters
 
--   `field` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an input element to fill in
+-   `field` **CodeceptJS.LocatorOrString** an input element to fill in
 -   `value` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** value to fill
+
+#### tapReturnKey
+
+Taps return key.
+A field can be located by text, accessibility id, id.
+
+```js
+I.tapReturnKey('Username');
+I.tapReturnKey('~name');
+I.tapReturnKey({ android: 'NAME', ios: 'name' });
+```
+
+##### Parameters
+
+-   `field` **CodeceptJS.LocatorOrString** an input element to fill in
 
 #### clearField
 
@@ -485,7 +585,7 @@ I.clearField('~name');
 
 ##### Parameters
 
--   `field` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an input element to clear
+-   `field` **CodeceptJS.LocatorOrString** an input element to clear
 
 #### appendField
 
@@ -498,7 +598,7 @@ I.appendField('name', 'davert');
 
 ##### Parameters
 
--   `field` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
+-   `field` **CodeceptJS.LocatorOrString** 
 -   `value` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### scrollUp
@@ -511,7 +611,7 @@ I.scrollUp('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
+-   `locator` **CodeceptJS.LocatorOrString** 
 
 #### scrollDown
 
@@ -523,7 +623,7 @@ I.scrollDown('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
+-   `locator` **CodeceptJS.LocatorOrString** 
 
 #### scrollLeft
 
@@ -535,7 +635,7 @@ I.scrollLeft('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
+-   `locator` **CodeceptJS.LocatorOrString** 
 
 #### scrollRight
 
@@ -547,11 +647,11 @@ I.scrollRight('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** 
+-   `locator` **CodeceptJS.LocatorOrString** 
 
 #### swipeUp
 
-Performs a scroll down inside an element.
+Performs a swipe up inside an element.
 Can be `slow` or `fast` swipe.
 
 ```js
@@ -560,12 +660,12 @@ I.swipeUp('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element on which to perform swipe
+-   `locator` **CodeceptJS.LocatorOrString** an element on which to perform swipe
 -   `speed` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** a speed to perform: `slow` or `fast`. (optional, default `'slow'`)
 
 #### swipeDown
 
-Performs a scroll up inside an element.
+Performs a swipe up inside an element.
 Can be `slow` or `fast` swipe.
 
 ```js
@@ -574,7 +674,7 @@ I.swipeUp('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element on which to perform swipe
+-   `locator` **CodeceptJS.LocatorOrString** an element on which to perform swipe
 -   `speed` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** a speed to perform: `slow` or `fast`. (optional, default `'slow'`)
 
 #### swipeLeft
@@ -588,7 +688,7 @@ I.swipeUp('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element on which to perform swipe
+-   `locator` **CodeceptJS.LocatorOrString** an element on which to perform swipe
 -   `speed` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** a speed to perform: `slow` or `fast`. (optional, default `'slow'`)
 
 #### swipeRight
@@ -602,7 +702,7 @@ I.swipeUp('#container');
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element on which to perform swipe
+-   `locator` **CodeceptJS.LocatorOrString** an element on which to perform swipe
 -   `speed` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** a speed to perform: `slow` or `fast`. (optional, default `'slow'`)
 
 #### wait
@@ -615,7 +715,7 @@ I.wait(2); // waits for 2 seconds
 
 ##### Parameters
 
--   `sec` **int** number of seconds to wait
+-   `sec` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** number of seconds to wait
 
 #### waitForElement
 
@@ -627,8 +727,8 @@ I.waitForElement('#message', 1); // wait for 1 second
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element to wait for
--   `sec` **int** number of seconds to wait, 5 by default (optional, default `5`)
+-   `locator` **CodeceptJS.LocatorOrString** an element to wait for
+-   `sec` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** number of seconds to wait, 5 by default (optional, default `5`)
 
 #### waitForElementVisible
 
@@ -640,12 +740,12 @@ I.waitForElementVisible('#message', 1); // wait for 1 second
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element to wait for
--   `sec` **int** number of seconds to wait (optional, default `5`)
+-   `locator` **CodeceptJS.LocatorOrString** an element to wait for
+-   `sec` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** number of seconds to wait (optional, default `5`)
 
 #### waitToHide
 
-Waits an elment to become not visible.
+Waits an elmenet to become not visible.
 
 ```js
 I.waitToHide('#message', 2); // wait for 2 seconds
@@ -653,5 +753,16 @@ I.waitToHide('#message', 2); // wait for 2 seconds
 
 ##### Parameters
 
--   `locator` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** an element to wait for
--   `sec` **int** number of seconds to wait (optional, default `5`)
+-   `locator` **CodeceptJS.LocatorOrString** an element to wait for
+-   `sec` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** number of seconds to wait (optional, default `5`)
+
+#### scrollToElement
+
+Scrolls within a scrollable container to an element.
+
+##### Parameters
+
+-   `targetLocator` **CodeceptJS.LocatorOrString** Locator of the element to scroll to
+-   `containerLocator` **CodeceptJS.LocatorOrString** Locator of the scrollable container
+-   `direction` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 'up' or 'down' (optional, default `'down'`)
+-   `offset` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Offset for scroll, can be adjusted based on need (optional, default `100`)

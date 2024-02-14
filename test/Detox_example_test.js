@@ -27,15 +27,15 @@ describe('Detox', function () {
   afterEach(() => I._after());
 
   describe('#seeElement', () => {
-    it('should have welcome screen #1', async () => {
+    it('should have welcome screen #1', () => {
       I.seeElement('#welcome');
       I.seeElement({ id: 'welcome' });
     });
   });
 
   describe('#see', () => {
-    it('should see welcome screen', async () => {
-      await I.see('Welcome');
+    it('should see welcome screen', () => {
+      I.see('Welcome to\nReact Native');
     });
   });
 

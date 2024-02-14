@@ -1,1 +1,0 @@
-[{"outputType":{"type":"INSTANT_RUN_MERGED_MANIFESTS"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":1,"versionName":"1.0","enabled":true,"outputFile":"app-fromBin-debug.apk","fullName":"fromBinDebug","baseName":"fromBin-debug"},"path":"AndroidManifest.xml","properties":{"packageId":"com.wix.detox.test","split":"","minSdkVersion":"18"}}]
