@@ -1,7 +1,0 @@
-{
-  "rootDir": "../..",
-  "setupFilesAfterEnv": ["./test/e2e/init.js"],
-  "testEnvironment": "node",
-  "verbose": true,
-  "bail": false
-}

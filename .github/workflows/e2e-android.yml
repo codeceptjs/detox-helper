@@ -1,0 +1,45 @@
+# .github/workflows/e2e-android.yml
+name: e2e-android
+on: push
+
+jobs:
+  e2e-android:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install Yarn dependencies
+        run: yarn --frozen-lockfile --prefer-offline
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          cache: gradle
+          distribution: temurin
+          java-version: 17
+
+      - name: Get device name
+        id: device
+        run: node -e "console.log('AVD_NAME=' + require('./test/package.json').detox.devices.emulator.device.avdName)" >> $GITHUB_OUTPUT
+
+      - name: Detox test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          avd-name: ${{ steps.device.outputs.AVD_NAME }}
+          script: cd test && npm i --force && npx codeceptjs run --verbose
+
+      - name: Upload artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: detox-artifacts
+          path: artifacts

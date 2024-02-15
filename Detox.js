@@ -1,7 +1,10 @@
-const { recorder } = require('codeceptjs');
+const { recorder, Helper } = require('codeceptjs');
 const path = require('path');
+const {TEST_STATUS, ORIENTATION, PLATFORM, DIRECTION} = require("./constant");
 
+const DEFAULT_WAIT_IN_SECS = 5;
 let detox;
+let internalDetox;
 let by;
 let element;
 let expect;
@@ -18,8 +21,8 @@ let waitFor;
  *
  * ### Setup
  *
- * 1. [Install and configure Detox for iOS](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md) and [Android](https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md)
- * 2. [Build an application](https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md#step-4-build-your-app-and-run-detox-tests) using `detox build` command.
+ * 1. [Install and configure Detox](https://wix.github.io/Detox/docs/introduction/project-setup)
+ * 2. [Build an application](https://wix.github.io/Detox/docs/introduction/project-setup#step-5-build-the-app) using `detox build` command.
  * 3. Install [CodeceptJS](https://codecept.io) and detox-helper:
  *
  * ```
@@ -32,15 +35,28 @@ let waitFor;
  *
  * ```js
  *  "detox": {
- *    "configurations": {
- *      "ios.sim.debug": {
- *        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/example.app",
- *        "build": "xcodebuild -project ios/example.xcodeproj -scheme example -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
- *        "type": "ios.simulator",
- *        "name": "iPhone 7"
- *      }
- *    }
- *  }
+ *     "configurations": {
+ *       "ios.sim.debug": {
+ *         "device": "simulator",
+ *         "app": "ios.debug"
+ *       }
+ *     },
+ *     "apps": {
+ *       "ios.debug": {
+ *         "type": "ios.app",
+ *         "binaryPath": "../test/ios/build/Build/Products/Debug-iphonesimulator/MyTestApp.app",
+ *         "build": "xcodebuild -workspace ../test/ios/MyTestApp.xcworkspace -scheme MyTestApp -configuration Debug -sdk iphonesimulator -derivedDataPath ../test/ios/build"
+ *       }
+ *     },
+ *     "devices": {
+ *       "simulator": {
+ *         "type": "ios.simulator",
+ *         "device": {
+ *           "type": "iPhone 15"
+ *         }
+ *       }
+ *     }
+ *   }
  * ```
  *
  *
@@ -71,19 +87,22 @@ let waitFor;
  *
  */
 class Detox extends Helper {
-
   constructor(config) {
     super(config);
     this._setConfig(config);
     this._registerOptions();
 
+    internalDetox = require('detox/internals');
     detox = require('detox');
     this.device = detox.device;
     this._useDetoxFunctions();
   }
 
   _registerOptions() {
-    if (this.options.configuration && process.argv.indexOf('--configuration') < 0) {
+    if (
+        this.options.configuration &&
+        process.argv.indexOf('--configuration') < 0
+    ) {
       process.argv.push('--configuration');
       process.argv.push(this.options.configuration);
     }
@@ -100,10 +119,10 @@ class Detox extends Helper {
     waitFor = detox.waitFor;
 
     if (this.options.registerGlobals) {
-      global.by = by
-      global.element = element
-      global.expect = expect
-      global.waitFor = waitFor
+      global.by = by;
+      global.element = element;
+      global.expect = expect;
+      global.waitFor = waitFor;
     }
   }
 
@@ -114,31 +133,41 @@ class Detox extends Helper {
       reloadReactNative: false,
     };
 
-    const detoxConf = require(path.join(global.codecept_dir, 'package.json')).detox;
+    const detoxConf = require(path.join(
+        global.codecept_dir,
+        'package.json',
+    )).detox;
 
     return Object.assign(defaults, detoxConf, config);
   }
-
 
   static _checkRequirements() {
     try {
       require('detox');
     } catch (e) {
-      return ['detox@^19'];
+      return ['detox@^20'];
     }
   }
 
   async _beforeSuite() {
     const { reuse, launchApp } = this.options;
-    await detox.init(this.options, { reuse, launchApp });
-
+    await internalDetox.init({
+      argv: {
+        configuration: this.options.configuration,
+      },
+      testRunnerArgv: {
+        reuse,
+        launchApp,
+        require,
+      },
+    });
     if (this.options.reloadReactNative) {
       return this.device.launchApp({ newInstance: true });
     }
   }
 
   async _afterSuite() {
-    await detox.cleanup();
+    await internalDetox.cleanup();
   }
 
   async _before(test) {
@@ -150,40 +179,36 @@ class Detox extends Helper {
   }
 
   /**
-  * Saves a screenshot to the output dir
-  *
-  * ```js
-  * I.saveScreenshot('main-window.png');
-  * ```
-  *
-  * @param {string} name
-  */
+   * Saves a screenshot to the output dir
+   *
+   * ```js
+   * I.saveScreenshot('main-window.png');
+   * ```
+   *
+   * @param {string} name
+   */
   async saveScreenshot(name) {
     return this.device.takeScreenshot(name);
   }
 
-  async _test(test) {
-    await detox.beforeEach({
+  _generateTestPayload(test, status) {
+    return {
       title: test.title,
       fullName: test.fullTitle(),
-      status: 'running',
-    });
+      status,
+    }
+  }
+
+  async _test(test) {
+    await detox.beforeEach(this._generateTestPayload(test, TEST_STATUS.running));
   }
 
   async _passed(test) {
-    await detox.afterEach({
-      title: test.title,
-      fullName: test.fullTitle(),
-      status: 'passed',
-    });
+    await internalDetox.onTestDone(this._generateTestPayload(test, TEST_STATUS.passed));
   }
 
   async _failed(test) {
-    await detox.afterEach({
-      title: test.title,
-      fullName: test.fullTitle(),
-      status: 'failed',
-    });
+    await internalDetox.onTestDone(this._generateTestPayload(test, TEST_STATUS.failed));
   }
 
   async _locate(locator) {
@@ -195,35 +220,35 @@ class Detox extends Helper {
   }
 
   /**
-  * Relaunches an application.
-  *
-  * ```js
-  * I.relaunchApp();
-  * ```
-  */
+   * Relaunches an application.
+   *
+   * ```js
+   * I.relaunchApp();
+   * ```
+   */
   async relaunchApp() {
     return this.device.launchApp({ newInstance: true });
   }
 
   /**
-  * Launches an application. If application instance already exists, use [relaunchApp](#relaunchApp).
-  *
-  * ```js
-  * I.launchApp();
-  * ```
-  */
+   * Launches an application. If application instance already exists, use [relaunchApp](#relaunchApp).
+   *
+   * ```js
+   * I.launchApp();
+   * ```
+   */
   async launchApp() {
     return this.device.launchApp({ newInstance: false });
   }
 
   /**
-  * Installs a configured application.
-  * Application is installed by default.
-  *
-  * ```js
-  * I.installApp();
-  * ```
-  */
+   * Installs a configured application.
+   * Application is installed by default.
+   *
+   * ```js
+   * I.installApp();
+   * ```
+   */
   async installApp() {
     return this.device.installApp();
   }
@@ -240,25 +265,25 @@ class Detox extends Helper {
   }
 
   /**
-  * Goes back on Android
-  *
-  * ```js
-  * I.goBack(); // on Android only
-  * ```
-  */
+   * Goes back on Android
+   *
+   * ```js
+   * I.goBack(); // on Android only
+   * ```
+   */
   async goBack() {
     await this.device.pressBack();
   }
 
   /**
-  * Switches device to landscape orientation
-  *
-  * ```js
-  * I.setLandscapeOrientation();
-  * ```
-  */
+   * Switches device to landscape orientation
+   *
+   * ```js
+   * I.setLandscapeOrientation();
+   * ```
+   */
   async setLandscapeOrientation() {
-    await this.device.setOrientation('landscape');
+    await this.device.setOrientation(ORIENTATION.landscape);
   }
 
   /**
@@ -269,7 +294,18 @@ class Detox extends Helper {
    * ```
    */
   async setPortraitOrientation() {
-    await this.device.setOrientation('portrait');
+    await this.device.setOrientation(ORIENTATION.portrait);
+  }
+
+  /**
+   * Grab the device platform
+   *
+   * ```js
+   * const platform = await I.grabPlatform();
+   * ```
+   */
+  async grabPlatform() {
+    return this.device.getPlatform();
   }
 
   /**
@@ -277,40 +313,40 @@ class Detox extends Helper {
    *
    * ```js
    * I.runOnIOS(() => {
-    *    I.click('Button');
-    *    I.see('Hi, IOS');
-    * });
-    * ```
-    * @param {Function} fn a function which will be executed on iOS
-    */
+   *    I.click('Button');
+   *    I.see('Hi, IOS');
+   * });
+   * ```
+   * @param {Function} fn a function which will be executed on iOS
+   */
   async runOnIOS(fn) {
-    if (device.getPlatform() !== 'ios') return;
+    if (this.device.getPlatform() !== PLATFORM.ios) return;
     recorder.session.start('iOS-only actions');
     fn();
     recorder.add('restore from iOS session', () => recorder.session.restore());
     return recorder.promise();
   }
 
-
   /**
    * Execute code only on Android
    *
    * ```js
    * I.runOnAndroid(() => {
-    *    I.click('Button');
-    *    I.see('Hi, Android');
-    * });
-    * ```
-    * @param {Function} fn a function which will be executed on android
-    */
+   *    I.click('Button');
+   *    I.see('Hi, Android');
+   * });
+   * ```
+   * @param {Function} fn a function which will be executed on android
+   */
   async runOnAndroid(fn) {
-    if (device.getPlatform() !== 'android') return;
+    if (this.device.getPlatform() !== PLATFORM.android) return;
     recorder.session.start('Android-only actions');
     fn();
-    recorder.add('restore from Android session', () => recorder.session.restore());
+    recorder.add('restore from Android session', () =>
+        recorder.session.restore(),
+    );
     return recorder.promise();
   }
-
 
   /**
    * Taps on an element.
@@ -378,7 +414,6 @@ class Detox extends Helper {
     await element(locator).longPress(sec * 1000);
   }
 
-
   /**
    * Clicks on an element.
    * Element can be located by its text or id or accessibility id
@@ -426,18 +461,18 @@ class Detox extends Helper {
   }
 
   /**
-  * Performs click on element with horizontal and vertical offset.
-  * An element is located by text, id, accessibility id.
-  *
-  * ```js
-  * I.clickAtPoint('Save', 10, 10);
-  * I.clickAtPoint('~save', 10, 10); // locate by accessibility id
-  * ```
-  *
-  * @param {CodeceptJS.LocatorOrString} locator
-  * @param {number} [x=0] horizontal offset
-  * @param {number} [y=0] vertical offset
-  */
+   * Performs click on element with horizontal and vertical offset.
+   * An element is located by text, id, accessibility id.
+   *
+   * ```js
+   * I.clickAtPoint('Save', 10, 10);
+   * I.clickAtPoint('~save', 10, 10); // locate by accessibility id
+   * ```
+   *
+   * @param {CodeceptJS.LocatorOrString} locator
+   * @param {number} [x=0] horizontal offset
+   * @param {number} [y=0] vertical offset
+   */
   async clickAtPoint(locator, x = 0, y = 0) {
     await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
   }
@@ -602,7 +637,7 @@ class Detox extends Helper {
    */
   async tapReturnKey(field) {
     const locator = this._detectLocator(field);
-    await element(locator).tapReturnKey()
+    await element(locator).tapReturnKey();
   }
 
   /**
@@ -677,7 +712,6 @@ class Detox extends Helper {
     await element(this._detectLocator(locator)).scrollTo('left');
   }
 
-
   /**
    * Scrolls to the right of an element.
    *
@@ -691,6 +725,9 @@ class Detox extends Helper {
     await element(this._detectLocator(locator)).scrollTo('right');
   }
 
+  async _swipe(locator, direction, speed) {
+    return element(this._detectLocator(locator)).swipe(direction, speed);
+  }
 
   /**
    * Performs a swipe up inside an element.
@@ -704,9 +741,8 @@ class Detox extends Helper {
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeUp(locator, speed = 'slow') {
-    await element(this._detectLocator(locator)).swipe('up', speed);
+    await this._swipe(locator, DIRECTION.up, speed);
   }
-
 
   /**
    * Performs a swipe up inside an element.
@@ -720,9 +756,8 @@ class Detox extends Helper {
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeDown(locator, speed = 'slow') {
-    await element(this._detectLocator(locator)).swipe('down', speed);
+    await this._swipe(locator, DIRECTION.down, speed);
   }
-
 
   /**
    * Performs a swipe up inside an element.
@@ -736,9 +771,8 @@ class Detox extends Helper {
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeLeft(locator, speed = 'slow') {
-    await element(this._detectLocator(locator)).swipe('left', speed);
+    await this._swipe(locator, DIRECTION.left, speed);
   }
-
 
   /**
    * Performs a swipe up inside an element.
@@ -752,7 +786,7 @@ class Detox extends Helper {
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
   async swipeRight(locator, speed = 'slow') {
-    await element(this._detectLocator(locator)).swipe('right', speed);
+    await this._swipe(locator, DIRECTION.right, speed);
   }
 
   /**
@@ -765,9 +799,9 @@ class Detox extends Helper {
    * @param {number} sec number of seconds to wait
    */
   async wait(sec) {
-    return new Promise(((done) => {
+    return new Promise((done) => {
       setTimeout(done, sec * 1000);
-    }));
+    });
   }
 
   /**
@@ -780,8 +814,10 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator an element to wait for
    * @param {number} [sec=5] number of seconds to wait, 5 by default
    */
-  async waitForElement(locator, sec = 5) {
-    return waitFor(element(this._detectLocator(locator))).toExist().withTimeout(sec * 1000);
+  async waitForElement(locator, sec = DEFAULT_WAIT_IN_SECS) {
+    return waitFor(element(this._detectLocator(locator)))
+        .toExist()
+        .withTimeout(sec * 1000);
   }
 
   /**
@@ -794,12 +830,14 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator an element to wait for
    * @param {number} [sec=5] number of seconds to wait
    */
-  async waitForElementVisible(locator, sec = 5) {
-    return waitFor(element(this._detectLocator(locator))).toBeVisible().withTimeout(sec * 1000);
+  async waitForElementVisible(locator, sec = DEFAULT_WAIT_IN_SECS) {
+    return waitFor(element(this._detectLocator(locator)))
+        .toBeVisible()
+        .withTimeout(sec * 1000);
   }
 
   /**
-   * Waits an elment to become not visible.
+   * Waits an elmenet to become not visible.
    *
    * ```js
    * I.waitToHide('#message', 2); // wait for 2 seconds
@@ -808,14 +846,51 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator  an element to wait for
    * @param {number} [sec=5] number of seconds to wait
    */
-  async waitToHide(locator, sec = 5) {
-    return waitFor(element(this._detectLocator(locator))).toBeNotVisible().withTimeout(sec * 1000);
+  async waitToHide(locator, sec = DEFAULT_WAIT_IN_SECS) {
+    return waitFor(element(this._detectLocator(locator)))
+        .toBeNotVisible()
+        .withTimeout(sec * 1000);
+  }
+
+  /**
+   * Scrolls within a scrollable container to an element.
+   *
+   * @param {CodeceptJS.LocatorOrString} targetLocator - Locator of the element to scroll to
+   * @param {CodeceptJS.LocatorOrString} containerLocator - Locator of the scrollable container
+   * @param {string} direction - 'up' or 'down'
+   * @param {number} [offset=100] - Offset for scroll, can be adjusted based on need
+   */
+  async scrollToElement(
+      targetLocator,
+      containerLocator,
+      direction = 'down',
+      offset = 100,
+  ) {
+    const targetElement = element(this._detectLocator(targetLocator));
+    const container = element(this._detectLocator(containerLocator));
+
+    try {
+      while (true) {
+        try {
+          // Check if the target element is visible
+          await expect(targetElement).toBeVisible();
+          break; // Exit the loop if element is visible
+        } catch (error) {
+          // If not visible, scroll and try again
+          await container.scroll(offset, direction);
+        }
+      }
+    } catch (error) {
+      throw new Error(`Error scrolling to element: ${error.message}`);
+    }
   }
 
   _detectLocator(locator, type = 'type') {
     if (typeof locator === 'object') {
-      if (locator.android && this.device.getPlatform() === 'android') return this._detectLocator(locator.android, type);
-      if (locator.ios && this.device.getPlatform() === 'ios') return this._detectLocator(locator.ios, type);
+      if (locator.android && this.device.getPlatform() === PLATFORM.android)
+        return this._detectLocator(locator.android, type);
+      if (locator.ios && this.device.getPlatform() === PLATFORM.ios)
+        return this._detectLocator(locator.ios, type);
       if (locator.id) return by.id(locator.id);
       if (locator.label) return by.label(locator.label);
       if (locator.text) return by.text(locator.text);

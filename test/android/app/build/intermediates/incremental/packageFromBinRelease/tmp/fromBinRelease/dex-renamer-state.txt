@@ -1,4 +1,0 @@
-#Wed Jun 12 11:56:56 EEST 2019
-base.0=/home/davert/projects/detox-helper/test/android/app/build/intermediates/transforms/dexMerger/fromBin/release/0
-path.0=classes.dex
-renamed.0=classes.dex
