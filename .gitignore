@@ -7,10 +7,10 @@ test/node_modules
 test/android/gradle
 
 test/ios/Pods
-test/ios/build
 test/ios/MyTestApp
 test/ios/MyTestAppTests
 test/ios/Pods/Podfile.lock
+test/ios/build/Build/Intermediates.noindex
 
 test/package-lock.json
 test/yarn.lock
@@ -19,9 +19,10 @@ test/output
 test/Gemfile.lock
 
 test/android/.gradle
-/test/android/local.properties
-/test/android/app/src/main/assets/index.android.bundle
-/test/android/app/build/generated
-/test/android/app/build/intermediates
+test/android/.idea
+test/android/local.properties
+test/android/app/src/main/assets/index.android.bundle
+test/android/app/build/generated
+test/android/app/build/intermediates
 
 test/vendor
