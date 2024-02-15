@@ -1,6 +1,11 @@
 const {I} = inject();
 Feature('Acceptance Tests');
 
+Before(() => {
+  I.launchApp();
+  I.wait(15);
+})
+
 Scenario('App started', () => {
   I.see('Welcome');
 })

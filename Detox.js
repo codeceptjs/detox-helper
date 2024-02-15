@@ -110,7 +110,6 @@ class Detox extends Helper {
       process.argv.push('--artifacts-location');
       process.argv.push(global.output_dir + '/');
     }
-    process.argv.push('--headless')
   }
 
   _useDetoxFunctions() {

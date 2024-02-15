@@ -5,7 +5,6 @@ export const config = {
     Detox: {
       require: '../Detox.js',
       configuration: 'android.emu.release',
-      reloadReactNative: true,
       reuse: true,
     },
     Expect: {}
