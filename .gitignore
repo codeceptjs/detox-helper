@@ -19,3 +19,9 @@ test/output
 test/Gemfile.lock
 
 test/android/.gradle
+/test/android/local.properties
+/test/android/app/src/main/assets/index.android.bundle
+/test/android/app/build/generated
+/test/android/app/build/intermediates
+
+test/vendor

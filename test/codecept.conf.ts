@@ -4,7 +4,7 @@ export const config = {
   helpers: {
     Detox: {
       require: '../Detox.js',
-      configuration: 'android.emu.debug',
+      configuration: 'android.emu.release',
       reloadReactNative: true,
       reuse: true,
     },
