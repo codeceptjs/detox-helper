@@ -35,7 +35,7 @@ jobs:
           api-level: 34
           arch: x86_64
           avd-name: ${{ steps.device.outputs.AVD_NAME }}
-          script: cd test && npm i --force && npx react-native start & npx codeceptjs run --verbose
+          script: cd test && npm i --force && npx codeceptjs run --verbose
 
       - name: Upload artifacts
         if: failure()
