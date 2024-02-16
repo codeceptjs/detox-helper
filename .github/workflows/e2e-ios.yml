@@ -12,6 +12,7 @@ on:
 jobs:
   e2e-ios:
     runs-on: macos-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,8 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          cache: yarn
-          node-version-file: .node-version
+          node-version: '20.x'
 
       - name: Install Yarn dependencies
         run: yarn --frozen-lockfile --prefer-offline
