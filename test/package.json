@@ -30,6 +30,10 @@
         "device": "simulator",
         "app": "ios.debug"
       },
+      "ios.sim.release": {
+        "device": "simulator",
+        "app": "ios.release"
+      },
       "android.emu.debug": {
         "device": "emulator",
         "app": "android.debug"
@@ -44,6 +48,11 @@
         "type": "ios.app",
         "binaryPath": "../test/ios/build/Build/Products/Debug-iphonesimulator/MyTestApp.app",
         "build": "xcodebuild -workspace ../test/ios/MyTestApp.xcworkspace -scheme MyTestApp -configuration Debug -sdk iphonesimulator -derivedDataPath ../test/ios/build"
+      },
+      "ios.release": {
+        "type": "ios.app",
+        "binaryPath": "../test/ios/build/Build/Products/example.app",
+        "build": "export RCT_NO_LAUNCH_PACKAGER=true && xcodebuild -workspace ios/example.xcworkspace -UseNewBuildSystem=NO -scheme example -configuration Release -sdk iphonesimulator -derivedDataPath test/ios/build -quiet"
       },
       "android.debug": {
         "type": "android.apk",

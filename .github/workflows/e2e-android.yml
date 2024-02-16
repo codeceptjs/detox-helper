@@ -1,6 +1,14 @@
 # .github/workflows/e2e-android.yml
 name: e2e-android
-on: push
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   e2e-android:
