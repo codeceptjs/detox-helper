@@ -3,7 +3,7 @@ Feature('Acceptance Tests');
 
 Before(() => {
   I.launchApp();
-  I.waitForElementVisible('#hello_button');
+  I.waitForElementVisible('#hello_button', 15);
 })
 
 Scenario('App started', () => {
