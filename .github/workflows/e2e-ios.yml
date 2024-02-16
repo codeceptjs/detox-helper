@@ -34,7 +34,7 @@ jobs:
           HOMEBREW_NO_INSTALL_CLEANUP: 1
 
       - name: Detox test
-        run: cd test && npm i --force && npx codeceptjs run --verbose
+        run: cd test && npm i --force && CONF="ios.sim.release" npx codeceptjs run --verbose
 
       - name: Upload artifacts
         if: failure()
