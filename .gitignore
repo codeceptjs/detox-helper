@@ -26,3 +26,7 @@ test/android/app/build/generated
 test/android/app/build/intermediates
 
 test/vendor
+
+test/android/.idea
+test/ios/.DS_Store
+.DS_Store

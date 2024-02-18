@@ -4,7 +4,7 @@ export const config = {
   helpers: {
     Detox: {
       require: '../Detox.js',
-      configuration: 'android.emu.release',
+      configuration: process.env.CONF || 'android.emu.release',
       reuse: true,
     },
     Expect: {}

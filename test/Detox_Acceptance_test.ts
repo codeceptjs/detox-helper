@@ -3,7 +3,7 @@ Feature('Acceptance Tests');
 
 Before(() => {
   I.launchApp();
-  I.wait(15);
+  I.waitForElementVisible('#hello_button', 15);
 })
 
 Scenario('App started', () => {
@@ -12,7 +12,7 @@ Scenario('App started', () => {
 
 Scenario('Get platform', async () => {
   const platform = await I.grabPlatform();
-  I.expectEqual(platform, 'android');
+  process.env.CONF && process.env.CONF.includes('ios') ? I.expectEqual(platform, 'ios') : I.expectEqual(platform, 'android');
 })
 
 Scenario('Show hello screen after tap', () => {
