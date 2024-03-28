@@ -231,6 +231,17 @@ class Detox extends Helper {
   }
 
   /**
+   * Relaunches an application.
+   *
+   * ```js
+   * I.relaunchApp();
+   * ```
+   */
+  async loadFromUrl(url) {
+    return this.device.launchApp({ newInstance: true, url });
+  }
+
+  /**
    * Open Url
    *
    * ```js
