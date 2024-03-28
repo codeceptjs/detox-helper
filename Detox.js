@@ -231,6 +231,28 @@ class Detox extends Helper {
   }
 
   /**
+   * Open Url
+   *
+   * ```js
+   * I.openUrl(url: string);
+   * ```
+   */
+  async openUrl(url) {
+    return this.device.openURL({ url });
+  }
+
+  /**
+   * Gets the detox device
+   *
+   * ```js
+   * I.getDevice();
+   * ```
+   */
+  async getDevice() {
+    return this.device;
+  }
+
+  /**
    * Launches an application. If application instance already exists, use [relaunchApp](#relaunchApp).
    *
    * ```js
