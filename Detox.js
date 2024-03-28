@@ -82,6 +82,7 @@ let waitFor;
  *
  * * `configuration` - a detox configuration name. Required.
  * * `reloadReactNative` - should be enabled for React Native applications.
+ * * `url` - used to specify an expo updates/hot reload url for loading from.
  * * `reuse` - reuse application for tests. By default, Detox reinstalls and relaunches app.
  * * `registerGlobals` - (default: true) Register Detox helper functions `by`, `element`, `expect`, `waitFor` globally.
  *
@@ -129,6 +130,7 @@ class Detox extends Helper {
   _validateConfig(config) {
     const defaults = {
       launchApp: true,
+      url: undefined,
       reuse: false,
       reloadReactNative: false,
     };
@@ -173,7 +175,7 @@ class Detox extends Helper {
     }
     
     if (this.options.reloadReactNative) {
-      return this.device.launchApp({ newInstance: true });
+      return this.device.launchApp({ newInstance: true, url: this.options.url });
     }
   }
 
