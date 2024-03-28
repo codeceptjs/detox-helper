@@ -830,6 +830,38 @@ class Detox extends Helper {
         .toExist()
         .withTimeout(sec * 1000);
   }
+	/**
+	 * Scrolls within a scrollable container to an element.
+	 *
+	 * @param {CodeceptJS.LocatorOrString} targetLocator - Locator of the element to scroll to
+	 * @param {CodeceptJS.LocatorOrString} containerLocator - Locator of the scrollable container
+	 * @param {string} direction - 'up' or 'down'
+	 * @param {number} [offset=100] - Offset for scroll, can be adjusted based on need
+	 */
+	async scrollToElement(
+		targetLocator,
+		containerLocator,
+		direction = 'down',
+		offset = 100,
+	) {
+		const targetElement = element(this._detectLocator(targetLocator));
+		const container = element(this._detectLocator(containerLocator));
+
+		try {
+			while (true) {
+				try {
+					// Check if the target element is visible
+					await expect(targetElement).toBeVisible();
+					break; // Exit the loop if element is visible
+				} catch (error) {
+					// If not visible, scroll and try again
+					await container.scroll(offset, direction);
+				}
+			}
+		} catch (error) {
+			throw new Error(`Error scrolling to element: ${error.message}`);
+		}
+	}
 
   /**
    * Waits for an element to be visible on page.
