@@ -1,6 +1,6 @@
-const { recorder, Helper } = require('codeceptjs');
-const path = require('path');
-const {TEST_STATUS, ORIENTATION, PLATFORM, DIRECTION} = require("./constant");
+const { recorder, Helper } = require("codeceptjs");
+const path = require("path");
+const { TEST_STATUS, ORIENTATION, PLATFORM, DIRECTION } = require("./constant");
 
 const DEFAULT_WAIT_IN_SECS = 5;
 let detox;
@@ -93,23 +93,23 @@ class Detox extends Helper {
     this._setConfig(config);
     this._registerOptions();
 
-    internalDetox = require('detox/internals');
-    detox = require('detox');
+    internalDetox = require("detox/internals");
+    detox = require("detox");
     this.device = detox.device;
     this._useDetoxFunctions();
   }
 
   _registerOptions() {
     if (
-        this.options.configuration &&
-        process.argv.indexOf('--configuration') < 0
+      this.options.configuration &&
+      process.argv.indexOf("--configuration") < 0
     ) {
-      process.argv.push('--configuration');
+      process.argv.push("--configuration");
       process.argv.push(this.options.configuration);
     }
-    if (!process.argv.indexOf('--artifacts-location') < 0) {
-      process.argv.push('--artifacts-location');
-      process.argv.push(global.output_dir + '/');
+    if (!process.argv.indexOf("--artifacts-location") < 0) {
+      process.argv.push("--artifacts-location");
+      process.argv.push(global.output_dir + "/");
     }
   }
 
@@ -136,8 +136,8 @@ class Detox extends Helper {
     };
 
     const detoxConf = require(path.join(
-        global.codecept_dir,
-        'package.json',
+      global.codecept_dir,
+      "package.json"
     )).detox;
 
     return Object.assign(defaults, detoxConf, config);
@@ -145,9 +145,9 @@ class Detox extends Helper {
 
   static _checkRequirements() {
     try {
-      require('detox');
+      require("detox");
     } catch (e) {
-      return ['detox@^20'];
+      return ["detox@^20"];
     }
   }
 
@@ -164,7 +164,10 @@ class Detox extends Helper {
       },
     });
     if (this.options.reloadReactNative) {
-      return this.device.launchApp({ newInstance: true, url: this.options.url });
+      return this.device.launchApp({
+        newInstance: true,
+        url: this.options.url,
+      });
     }
   }
 
@@ -198,27 +201,33 @@ class Detox extends Helper {
       title: test.title,
       fullName: test.fullTitle(),
       status,
-    }
+    };
   }
 
   async _test(test) {
-    await detox.beforeEach(this._generateTestPayload(test, TEST_STATUS.running));
+    await detox.beforeEach(
+      this._generateTestPayload(test, TEST_STATUS.running)
+    );
   }
 
   async _passed(test) {
-    await internalDetox.onTestDone(this._generateTestPayload(test, TEST_STATUS.passed));
+    await internalDetox.onTestDone(
+      this._generateTestPayload(test, TEST_STATUS.passed)
+    );
   }
 
   async _failed(test) {
-    await internalDetox.onTestDone(this._generateTestPayload(test, TEST_STATUS.failed));
+    await internalDetox.onTestDone(
+      this._generateTestPayload(test, TEST_STATUS.failed)
+    );
   }
 
   async _locate(locator) {
-    return element(this._detectLocator(locator, 'type'));
+    return element(this._detectLocator(locator, "type"));
   }
 
   async _locateClickable(locator) {
-    return element(this._detectLocator(locator, 'type'));
+    return element(this._detectLocator(locator, "type"));
   }
 
   /**
@@ -356,9 +365,9 @@ class Detox extends Helper {
    */
   async runOnIOS(fn) {
     if (this.device.getPlatform() !== PLATFORM.ios) return;
-    recorder.session.start('iOS-only actions');
+    recorder.session.start("iOS-only actions");
     fn();
-    recorder.add('restore from iOS session', () => recorder.session.restore());
+    recorder.add("restore from iOS session", () => recorder.session.restore());
     return recorder.promise();
   }
 
@@ -375,10 +384,10 @@ class Detox extends Helper {
    */
   async runOnAndroid(fn) {
     if (this.device.getPlatform() !== PLATFORM.android) return;
-    recorder.session.start('Android-only actions');
+    recorder.session.start("Android-only actions");
     fn();
-    recorder.add('restore from Android session', () =>
-        recorder.session.restore(),
+    recorder.add("restore from Android session", () =>
+      recorder.session.restore()
     );
     return recorder.promise();
   }
@@ -425,7 +434,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString | null} [context=null] context element
    */
   async multiTap(locator, num, context = null) {
-    locator = this._detectLocator(locator, 'text');
+    locator = this._detectLocator(locator, "text");
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).multiTap(num);
   }
@@ -444,7 +453,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString | null} [context=null] context element
    */
   async longPress(locator, sec, context = null) {
-    locator = this._detectLocator(locator, 'text');
+    locator = this._detectLocator(locator, "text");
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).longPress(sec * 1000);
   }
@@ -469,7 +478,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString | null} [context=null]
    */
   async click(locator, context = null) {
-    locator = this._detectLocator(locator, 'text');
+    locator = this._detectLocator(locator, "text");
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).tap();
   }
@@ -490,7 +499,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString | null} [context=null]
    */
   async tapByLabel(locator, context = null) {
-    locator = this._detectLocator(locator, 'label');
+    locator = this._detectLocator(locator, "label");
     if (context) locator = this._detectLocator(context).withDescendant(locator);
     await element(locator).tap();
   }
@@ -509,7 +518,7 @@ class Detox extends Helper {
    * @param {number} [y=0] vertical offset
    */
   async clickAtPoint(locator, x = 0, y = 0) {
-    await element(this._detectLocator(locator, 'text')).tapAtPoint({ x, y });
+    await element(this._detectLocator(locator, "text")).tapAtPoint({ x, y });
   }
 
   /**
@@ -653,7 +662,7 @@ class Detox extends Helper {
    * @param {string} value value to fill
    */
   async fillField(field, value) {
-    const locator = this._detectLocator(field, 'text');
+    const locator = this._detectLocator(field, "text");
     await element(locator).tap();
     await element(locator).replaceText(value);
   }
@@ -686,7 +695,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} field an input element to clear
    */
   async clearField(field) {
-    const locator = this._detectLocator(field, 'text');
+    const locator = this._detectLocator(field, "text");
     await element(locator).tap();
     await element(locator).clearText();
   }
@@ -703,7 +712,7 @@ class Detox extends Helper {
    * @param {string} value
    */
   async appendField(field, value) {
-    const locator = this._detectLocator(field, 'text');
+    const locator = this._detectLocator(field, "text");
     await element(locator).tap();
     await element(locator).typeText(value);
   }
@@ -718,7 +727,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator
    */
   async scrollUp(locator) {
-    await element(this._detectLocator(locator)).scrollTo('top');
+    await element(this._detectLocator(locator)).scrollTo("top");
   }
 
   /**
@@ -731,7 +740,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator
    */
   async scrollDown(locator) {
-    await element(this._detectLocator(locator)).scrollTo('bottom');
+    await element(this._detectLocator(locator)).scrollTo("bottom");
   }
 
   /**
@@ -744,7 +753,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator
    */
   async scrollLeft(locator) {
-    await element(this._detectLocator(locator)).scrollTo('left');
+    await element(this._detectLocator(locator)).scrollTo("left");
   }
 
   /**
@@ -757,7 +766,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator
    */
   async scrollRight(locator) {
-    await element(this._detectLocator(locator)).scrollTo('right');
+    await element(this._detectLocator(locator)).scrollTo("right");
   }
 
   async _swipe(locator, direction, speed) {
@@ -775,7 +784,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
-  async swipeUp(locator, speed = 'slow') {
+  async swipeUp(locator, speed = "slow") {
     await this._swipe(locator, DIRECTION.up, speed);
   }
 
@@ -790,7 +799,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
-  async swipeDown(locator, speed = 'slow') {
+  async swipeDown(locator, speed = "slow") {
     await this._swipe(locator, DIRECTION.down, speed);
   }
 
@@ -805,7 +814,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
-  async swipeLeft(locator, speed = 'slow') {
+  async swipeLeft(locator, speed = "slow") {
     await this._swipe(locator, DIRECTION.left, speed);
   }
 
@@ -820,7 +829,7 @@ class Detox extends Helper {
    * @param {CodeceptJS.LocatorOrString} locator an element on which to perform swipe
    * @param {string} [speed='slow'] a speed to perform: `slow` or `fast`.
    */
-  async swipeRight(locator, speed = 'slow') {
+  async swipeRight(locator, speed = "slow") {
     await this._swipe(locator, DIRECTION.right, speed);
   }
 
@@ -851,74 +860,9 @@ class Detox extends Helper {
    */
   async waitForElement(locator, sec = DEFAULT_WAIT_IN_SECS) {
     return waitFor(element(this._detectLocator(locator)))
-        .toExist()
-        .withTimeout(sec * 1000);
+      .toExist()
+      .withTimeout(sec * 1000);
   }
-	/**
-	 * Scrolls within a scrollable container to an element.
-	 *
-	 * @param {CodeceptJS.LocatorOrString} targetLocator - Locator of the element to scroll to
-	 * @param {CodeceptJS.LocatorOrString} containerLocator - Locator of the scrollable container
-	 * @param {string} direction - 'up' or 'down'
-	 * @param {number} [offset=100] - Offset for scroll, can be adjusted based on need
-	 */
-	async scrollToElement(
-		targetLocator,
-		containerLocator,
-		direction = 'down',
-		offset = 100,
-	) {
-		const targetElement = element(this._detectLocator(targetLocator));
-		const container = element(this._detectLocator(containerLocator));
-
-		try {
-			while (true) {
-				try {
-					// Check if the target element is visible
-					await expect(targetElement).toBeVisible();
-					break; // Exit the loop if element is visible
-				} catch (error) {
-					// If not visible, scroll and try again
-					await container.scroll(offset, direction);
-				}
-			}
-		} catch (error) {
-			throw new Error(`Error scrolling to element: ${error.message}`);
-		}
-	}
-
-  /**
-   * Waits for an element to be visible on page.
-   *
-   * ```js
-   * I.waitForElementVisible('#message', 1); // wait for 1 second
-   * ```
-   *
-   * @param {CodeceptJS.LocatorOrString} locator an element to wait for
-   * @param {number} [sec=5] number of seconds to wait
-   */
-  async waitForElementVisible(locator, sec = DEFAULT_WAIT_IN_SECS) {
-    return waitFor(element(this._detectLocator(locator)))
-        .toBeVisible()
-        .withTimeout(sec * 1000);
-  }
-
-  /**
-   * Waits an elmenet to become not visible.
-   *
-   * ```js
-   * I.waitToHide('#message', 2); // wait for 2 seconds
-   * ```
-   *
-   * @param {CodeceptJS.LocatorOrString} locator  an element to wait for
-   * @param {number} [sec=5] number of seconds to wait
-   */
-  async waitToHide(locator, sec = DEFAULT_WAIT_IN_SECS) {
-    return waitFor(element(this._detectLocator(locator)))
-        .toBeNotVisible()
-        .withTimeout(sec * 1000);
-  }
-
   /**
    * Scrolls within a scrollable container to an element.
    *
@@ -928,10 +872,10 @@ class Detox extends Helper {
    * @param {number} [offset=100] - Offset for scroll, can be adjusted based on need
    */
   async scrollToElement(
-      targetLocator,
-      containerLocator,
-      direction = 'down',
-      offset = 100,
+    targetLocator,
+    containerLocator,
+    direction = "down",
+    offset = 100
   ) {
     const targetElement = element(this._detectLocator(targetLocator));
     const container = element(this._detectLocator(containerLocator));
@@ -952,8 +896,112 @@ class Detox extends Helper {
     }
   }
 
-  _detectLocator(locator, type = 'type') {
-    if (typeof locator === 'object') {
+  /**
+   * Waits for an element to be visible on page.
+   *
+   * ```js
+   * I.waitForElementVisible('#message', 1); // wait for 1 second
+   * ```
+   *
+   * @param {CodeceptJS.LocatorOrString} locator an element to wait for
+   * @param {number} [sec=5] number of seconds to wait
+   */
+  async waitForElementVisible(locator, sec = DEFAULT_WAIT_IN_SECS) {
+    return waitFor(element(this._detectLocator(locator)))
+      .toBeVisible()
+      .withTimeout(sec * 1000);
+  }
+
+  /**
+   * Waits an elmenet to become not visible.
+   *
+   * ```js
+   * I.waitToHide('#message', 2); // wait for 2 seconds
+   * ```
+   *
+   * @param {CodeceptJS.LocatorOrString} locator  an element to wait for
+   * @param {number} [sec=5] number of seconds to wait
+   */
+  async waitToHide(locator, sec = DEFAULT_WAIT_IN_SECS) {
+    return waitFor(element(this._detectLocator(locator)))
+      .toBeNotVisible()
+      .withTimeout(sec * 1000);
+  }
+
+  /**
+   * Scrolls within a scrollable container to an element.
+   *
+   * @param {CodeceptJS.LocatorOrString} targetLocator - Locator of the element to scroll to
+   * @param {CodeceptJS.LocatorOrString} containerLocator - Locator of the scrollable container
+   * @param {string} direction - 'up' or 'down'
+   * @param {number} [offset=100] - Offset for scroll, can be adjusted based on need
+   */
+  async scrollToElement(
+    targetLocator,
+    containerLocator,
+    direction = "down",
+    offset = 100
+  ) {
+    const targetElement = element(this._detectLocator(targetLocator));
+    const container = element(this._detectLocator(containerLocator));
+
+    try {
+      while (true) {
+        try {
+          // Check if the target element is visible
+          await expect(targetElement).toBeVisible();
+          break; // Exit the loop if element is visible
+        } catch (error) {
+          // If not visible, scroll and try again
+          await container.scroll(offset, direction);
+        }
+      }
+    } catch (error) {
+      throw new Error(`Error scrolling to element: ${error.message}`);
+    }
+  }
+
+  /**
+   * Swipes within a scrollable container to an element.
+   *
+   * @param {CodeceptJS.LocatorOrString} targetLocator - Locator of the element to scroll to
+   * @param {CodeceptJS.LocatorOrString} containerLocator - Locator of the scrollable container
+   * @param {string} direction - 'up' or 'down'
+   */
+  async swipeToElement(targetLocator, containerLocator, direction = "down") {
+    const targetElement = element(this._detectLocator(targetLocator));
+
+    try {
+      let isVisible = false;
+      const maxAttempts = 10;
+      let attempts = 0;
+
+      while (!isVisible && attempts < maxAttempts) {
+        try {
+          await expect(targetElement).toBeVisible();
+          isVisible = true;
+        } catch (error) {
+          if (direction === "down") {
+            await this.swipeDown(containerLocator);
+          } else {
+            await this.swipeUp(containerLocator);
+          }
+          attempts++;
+        }
+      }
+
+      if (!isVisible) {
+        throw new Error(
+          "Reached maximum swipe attempts without finding the element."
+        );
+      }
+    } catch (error) {
+      throw new Error(`Error swiping to element: ${error.message}`);
+    }
+  }
+
+  _detectLocator(locator, type = "type") {
+    if (typeof locator === "object") {
       if (locator.android && this.device.getPlatform() === PLATFORM.android)
         return this._detectLocator(locator.android, type);
       if (locator.ios && this.device.getPlatform() === PLATFORM.ios)
@@ -966,16 +1014,16 @@ class Detox extends Helper {
       return locator;
     }
 
-    if (locator[0] === '#') {
+    if (locator[0] === "#") {
       return by.id(locator.slice(1));
     }
-    if (locator[0] === '~') {
+    if (locator[0] === "~") {
       return by.label(locator.slice(1));
     }
-    if (type === 'text') {
+    if (type === "text") {
       return by.text(locator);
     }
-    if (type === 'label') {
+    if (type === "label") {
       return by.label(locator);
     }
     return by.type(locator);
