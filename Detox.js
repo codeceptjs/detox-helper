@@ -999,6 +999,20 @@ class Detox extends Helper {
       throw new Error(`Error swiping to element: ${error.message}`);
     }
   }
+  /**
+   * Closes the device keyboard.
+   */
+  async closeKeyboard() {
+    try {
+      if (this.device.getPlatform() === "ios") {
+        await this.device.dismissKeyboard();
+      } else if (this.device.getPlatform() === "android") {
+        await this.device.pressBack();
+      }
+    } catch (error) {
+      throw new Error(`Error closing keyboard: ${error.message}`);
+    }
+  }
 
   _detectLocator(locator, type = "type") {
     if (typeof locator === "object") {
