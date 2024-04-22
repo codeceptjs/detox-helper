@@ -154,7 +154,7 @@ class Detox extends Helper {
 
     // running within _init doesn't appear to initialize Helpers['Detox'] in time for other helpers' _beforeSuite
     if (internalDetox.getStatus() == 'inactive') {
-      await detoxInternal.init({
+      await internalDetox.init({
         argv: {
           configuration: this.options.configuration,
           ...(!this.options.loglevel ? {} : {
