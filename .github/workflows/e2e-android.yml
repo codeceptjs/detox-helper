@@ -4,11 +4,7 @@ name: e2e-android
 on:
   push:
     branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - '**'
+      - disabled
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
