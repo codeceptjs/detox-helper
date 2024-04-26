@@ -153,16 +153,27 @@ class Detox extends Helper {
 
   async _beforeSuite() {
     const { reuse, launchApp } = this.options;
-    await internalDetox.init({
-      argv: {
-        configuration: this.options.configuration,
-      },
-      testRunnerArgv: {
-        reuse,
-        launchApp,
-        require,
-      },
-    });
+
+    // running within _init doesn't appear to initialize Helpers['Detox'] in time for other helpers' _beforeSuite
+    if (internalDetox.getStatus() == 'inactive') {
+      await internalDetox.init({
+        argv: {
+          configuration: this.options.configuration,
+          ...(!this.options.loglevel ? {} : {
+            loglevel: this.options.loglevel,
+          }),
+          ...(!this.options.debugSynchronization ? {} : {
+            'debug-synchronization': this.options.debugSynchronization,
+          }),
+        },
+        testRunnerArgv: {
+          reuse,
+          launchApp,
+          require,
+        }
+      });
+    }
+    
     if (this.options.reloadReactNative) {
       return this.device.launchApp({
         newInstance: true,
@@ -171,11 +182,11 @@ class Detox extends Helper {
     }
   }
 
-  async _afterSuite() {
+  async _finishTest() {
     await internalDetox.cleanup();
   }
 
-  async _before(test) {
+  async _before() {
     if (this.options.reloadReactNative) {
       await this.device.reloadReactNative();
     } else {
