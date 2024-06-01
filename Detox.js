@@ -111,6 +111,19 @@ class Detox extends Helper {
       process.argv.push("--artifacts-location");
       process.argv.push(global.output_dir + "/");
     }
+    console.log('setting up with debug flags');
+    process.argv.push("--debug-synchronization");
+      process.argv.push("500");
+
+      process.argv.push("--record-logs");
+      process.argv.push("all");
+
+      process.argv.push("--record-videos");
+      process.argv.push("all");
+
+      process.argv.push("--loglevel");
+      process.argv.push("trace");
+      
   }
 
   _useDetoxFunctions() {
