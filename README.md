@@ -23,28 +23,81 @@ I.runOnIOS(() => {
 
 Example output:
 
-    CodeceptJS v3.5.12 #StandWithUkraine
-    Using test root "/Users/t/Desktop/projects/detox-helper/test"
-    Helpers: Detox
-    Plugins: screenshotOnFail
+```
+creating output directory: /Users/runner/work/detox-helper/detox-helper/test/output
+***************************************
+nodeInfo:  20.14.0
+osInfo:  macOS 14.5
+cpuInfo:  (3) arm64 Apple M1 (Virtual)
+chromeInfo:  125.0.6422.142
+edgeInfo:  Not Found
+firefoxInfo:  undefined
+safariInfo:  17.5
+If you need more detailed info, just run this: npx codeceptjs info
+***************************************
+CodeceptJS v3.6.3 #StandWithUkraine
+Using test root "/Users/runner/work/detox-helper/detox-helper/test"
+Helpers: Detox, ExpectHelper
+Plugins: screenshotOnFail
 
-    Starter --
-        [1]  Starting recording promises
-        Timeouts: 
-    12:08:18.693 detox[70751] i org.reactjs.native.example.MyTestApp launched. To watch simulator logs, run:
-            /usr/bin/xcrun simctl spawn 2A7CB01D-1AAF-4AB6-8236-163E1701D21A log stream --level debug --style compact --predicate 'process == "MyTestApp"'
-    12:08:20.542 detox[70751] i   App started
-    12:08:20.908 detox[70751] i     I see "Welcome to
-    React Native"
-    12:08:20.919 detox[70751] i   ✔ OK in 17ms
-    12:08:20.919 detox[70751] i 
-    12:08:20.922 detox[70751] i   Get plaform
-    12:08:21.274 detox[70751] i     I grab platform 
-    12:08:21.274 detox[70751] i ios
-    12:08:21.274 detox[70751] i   ✔ OK in 4ms
-    12:08:21.275 detox[70751] i 
-    12:08:21.310 detox[70751] i 
-    12:08:21.312 detox[70751] i   OK  | 2 passed   // 14s
+Acceptance Tests --
+    [1]  Starting recording promises
+    Timeouts: 
+11:44:06.770 detox[8813] i   App started
+11:44:28.445 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:44:28.557 detox[8813] i     --- STARTED "before each" hook: Before for "App started" ---
+11:44:28.583 detox[8813] i     I launch app 
+11:44:30.037 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:44:30.043 detox[8813] i     I wait for element visible "#hello_button", 15
+11:44:31.253 detox[8813] i     --- ENDED "before each" hook: Before for "App started" ---
+11:44:31.273 detox[8813] i     I see "Welcome"
+11:44:31.289 detox[8813] i   ✔ OK in 25ms
+11:44:31.289 detox[8813] i 
+11:44:31.301 detox[8813] i   Get platform
+11:44:34.736 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:44:40.582 detox[8813] i     --- STARTED "before each" hook: Before for "Get platform" ---
+11:44:40.588 detox[8813] i     I launch app 
+11:44:42.271 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:44:42.274 detox[8813] i     I wait for element visible "#hello_button", 15
+11:44:43.126 detox[8813] i     --- ENDED "before each" hook: Before for "Get platform" ---
+11:44:43.150 detox[8813] i     I grab platform 
+11:44:43.152 detox[8813] i     I expect ""ios"" to equal ""ios""
+11:44:43.158 detox[8813] i   ✔ OK in 31ms
+11:44:43.158 detox[8813] i 
+11:44:43.166 detox[8813] i   Show hello screen after tap
+11:44:46.251 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:44:52.308 detox[8813] i     --- STARTED "before each" hook: Before for "Show hello screen after tap" ---
+11:44:52.321 detox[8813] i     I launch app 
+11:47:22.243 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:47:22.319 detox[8813] i     I wait for element visible "#hello_button", 15
+11:47:23.637 detox[8813] i     --- ENDED "before each" hook: Before for "Show hello screen after tap" ---
+11:47:23.668 detox[8813] i     I dont see "Hello!!!"
+11:47:23.699 detox[8813] i     I click "#hello_button"
+11:47:24.308 detox[8813] i     I see "Hello!!!"
+11:47:24.323 detox[8813] i   ✔ OK in 684ms
+11:47:24.323 detox[8813] i 
+11:47:24.334 detox[8813] i   Show world screen after tap
+11:47:27.298 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:47:33.604 detox[8813] i     --- STARTED "before each" hook: Before for "Show world screen after tap" ---
+11:47:33.608 detox[8813] i     I launch app 
+11:47:36.074 detox[8813] i com.wix.demo.react.native launched. To watch simulator logs, run:
+        /usr/bin/xcrun simctl spawn F44382C2-F0BE-466A-9683-AA6B37591FBA log stream --level debug --style compact --predicate 'process == "example"'
+11:47:36.110 detox[8813] i     I wait for element visible "#hello_button", 15
+11:47:36.450 detox[8813] i     --- ENDED "before each" hook: Before for "Show world screen after tap" ---
+11:47:36.452 detox[8813] i     I click "#world_button"
+11:47:37.314 detox[8813] i     I see "World!!!"
+11:47:37.408 detox[8813] i   ✔ OK in 935ms
+11:47:37.409 detox[8813] i 
+11:47:37.468 detox[8813] i 
+11:47:37.470 detox[8813] i   OK  | 4 passed   // 7m
+```
 
 CodeceptJS provides next features over standard Detox:
 
