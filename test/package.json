@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@react-native/metro-config": "^0.73.5",
-    "codeceptjs": "^3.5.12",
+    "codeceptjs": "^3.6.3",
     "detox": "20.18.1",
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "^18.2.0",
@@ -69,7 +69,7 @@
       "simulator": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 12"
+          "type": "iPhone 15"
         }
       },
       "emulator": {
