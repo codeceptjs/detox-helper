@@ -111,19 +111,18 @@ class Detox extends Helper {
       process.argv.push("--artifacts-location");
       process.argv.push(global.output_dir + "/");
     }
-    console.log('setting up with debug flags');
+    console.log("setting up with debug flags");
     process.argv.push("--debug-synchronization");
-      process.argv.push("500");
+    process.argv.push("500");
 
-      process.argv.push("--record-logs");
-      process.argv.push("all");
+    process.argv.push("--record-logs");
+    process.argv.push("all");
 
-      process.argv.push("--record-videos");
-      process.argv.push("all");
+    process.argv.push("--record-videos");
+    process.argv.push("all");
 
-      process.argv.push("--loglevel");
-      process.argv.push("trace");
-      
+    process.argv.push("--loglevel");
+    process.argv.push("trace");
   }
 
   _useDetoxFunctions() {
@@ -168,25 +167,29 @@ class Detox extends Helper {
     const { reuse, launchApp } = this.options;
 
     // running within _init doesn't appear to initialize Helpers['Detox'] in time for other helpers' _beforeSuite
-    if (internalDetox.getStatus() == 'inactive') {
+    if (internalDetox.getStatus() == "inactive") {
       await internalDetox.init({
         argv: {
           configuration: this.options.configuration,
-          ...(!this.options.loglevel ? {} : {
-            loglevel: this.options.loglevel,
-          }),
-          ...(!this.options.debugSynchronization ? {} : {
-            'debug-synchronization': this.options.debugSynchronization,
-          }),
+          ...(!this.options.loglevel
+            ? {}
+            : {
+                loglevel: this.options.loglevel,
+              }),
+          ...(!this.options.debugSynchronization
+            ? {}
+            : {
+                "debug-synchronization": this.options.debugSynchronization,
+              }),
         },
         testRunnerArgv: {
           reuse,
           launchApp,
           require,
-        }
+        },
       });
     }
-    
+
     if (this.options.reloadReactNative) {
       return this.device.launchApp({
         newInstance: true,
@@ -1005,11 +1008,20 @@ class Detox extends Helper {
           await expect(targetElement).toBeVisible();
           isVisible = true;
         } catch (error) {
-          if (direction === "down") {
-            await this.swipeDown(containerLocator);
+          const scrollFunctions = {
+            down: this.swipeDown,
+            left: this.swipeLeft,
+            right: this.swipeRight,
+            up: this.swipeUp,
+          };
+
+          const scrollFunction = scrollFunctions[direction];
+          if (scrollFunction) {
+            await scrollFunction.call(this, containerLocator);
           } else {
-            await this.swipeUp(containerLocator);
+            throw new Error(`Invalid scroll direction: ${direction}`);
           }
+
           attempts++;
         }
       }
