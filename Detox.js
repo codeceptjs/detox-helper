@@ -190,6 +190,10 @@ class Detox extends Helper {
       await this.device.reloadReactNative();
     } else {
       await this.device.launchApp({ newInstance: true, url: this.options.url });
+
+      if (this.device.getPlatform() === 'ios' && this.options.url) {
+        await this.device.openURL({ url: this.options.url });
+      }
     }
   }
 
