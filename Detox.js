@@ -84,6 +84,7 @@ let waitFor;
  * * `reloadReactNative` - should be enabled for React Native applications.
  * * `reuse` - reuse application for tests. By default, Detox reinstalls and relaunches app.
  * * `registerGlobals` - (default: true) Register Detox helper functions `by`, `element`, `expect`, `waitFor` globally.
+ * * `url` - a URL to open on whenever the app is launched (android) or immediately afterwards (iOS). Useful for opening a bundle URL at the beginning of tests when working with Expo.
  *
  */
 class Detox extends Helper {
