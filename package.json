@@ -29,7 +29,7 @@
     "react-native": "^0.73.4"
   },
   "devDependencies": {
-    "codeceptjs": "3.5.12",
+    "codeceptjs": "3.6.10",
     "documentation": "11.0.1"
   }
 }
