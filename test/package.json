@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@react-native/metro-config": "^0.73.5",
+    "@react-native/metro-config": "^0.76.5",
     "codeceptjs": "^3.6.3",
     "detox": "20.28.0",
     "metro-react-native-babel-preset": "^0.77.0",
