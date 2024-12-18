@@ -11,7 +11,7 @@
   "dependencies": {
     "@react-native/metro-config": "^0.73.5",
     "codeceptjs": "^3.6.3",
-    "detox": "20.18.1",
+    "detox": "20.28.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "^18.2.0",
     "react-native": "^0.73.4"
@@ -19,7 +19,8 @@
   "devDependencies": {
     "@types/node": "^20.8.8",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "expect": "^29.7.0"
   },
   "detox": {
     "logger": {
