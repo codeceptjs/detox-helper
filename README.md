@@ -1,4 +1,4 @@
-[![Publish npm Package](https://github.com/codeceptjs/detox-helper/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/codeceptjs/detox-helper/actions/workflows/npm-publish.yml) [![e2e-android](https://github.com/codeceptjs/detox-helper/actions/workflows/e2e-android.yml/badge.svg)](https://github.com/codeceptjs/detox-helper/actions/workflows/e2e-android.yml) [![e2e-ios](https://github.com/codeceptjs/detox-helper/actions/workflows/e2e-ios.yml/badge.svg)](https://github.com/codeceptjs/detox-helper/actions/workflows/e2e-ios.yml)
+[![Publish npm Package](https://github.com/codeceptjs/detox-helper/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/codeceptjs/detox-helper/actions/workflows/npm-publish.yml) [![e2e-ios](https://github.com/codeceptjs/detox-helper/actions/workflows/e2e-ios.yml/badge.svg)](https://github.com/codeceptjs/detox-helper/actions/workflows/e2e-ios.yml)
 
 # [Detox](https://github.com/wix/Detox) Helper for [CodeceptJS](https://codecept.io)
 
