@@ -11,7 +11,7 @@
   "dependencies": {
     "@react-native/metro-config": "^0.77.0",
     "codeceptjs": "^3.6.3",
-    "detox": "20.32.0",
+    "detox": "20.34.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "^18.2.0",
     "react-native": "^0.77.0"
