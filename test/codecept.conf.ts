@@ -7,7 +7,9 @@ export const config = {
       configuration: process.env.CONF || 'android.emu.release',
       reuse: true,
     },
-    ExpectHelper: {}
+    ExpectHelper: {
+      require: '@codeceptjs/expect-helper',
+    }
   },
   include: {
     I: './steps_file',

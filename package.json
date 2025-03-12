@@ -1,6 +1,6 @@
 {
   "name": "@codeceptjs/detox-helper",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Detox helper for CodeceptJS",
   "main": "Detox.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "react-native": "^0.78.0"
   },
   "devDependencies": {
-    "codeceptjs": "3.6.10",
+    "codeceptjs": "3.7.2",
     "documentation": "14.0.3",
     "expect": "^29.7.0"
   }

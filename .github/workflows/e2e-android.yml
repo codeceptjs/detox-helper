@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '22.x'
 
       - name: Install Yarn dependencies
         run: yarn --frozen-lockfile --prefer-offline
@@ -43,7 +43,7 @@ jobs:
           api-level: 34
           arch: x86_64
           avd-name: ${{ steps.device.outputs.AVD_NAME }}
-          script: cd test && npm i --force && npx codeceptjs run --verbose
+          script: cd test && npm i --force && npm test
 
       - name: Upload artifacts
         if: failure()

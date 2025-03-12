@@ -4,23 +4,24 @@
   "description": "",
   "main": "jest.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "codeceptjs run --verbose"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@codeceptjs/expect-helper": "^1.0.0",
     "@react-native/metro-config": "^0.78.0",
-    "codeceptjs": "3.6.3",
+    "codeceptjs": "3.7.2",
     "detox": "20.34.5",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react": "^18.2.0",
+    "react": "^19.0",
     "react-native": "^0.78.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "expect": "^29.7.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
-    "expect": "^29.7.0"
+    "typescript": "^5.2.2"
   },
   "detox": {
     "logger": {
