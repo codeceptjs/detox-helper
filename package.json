@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/codeceptjs/detox-helper#readme",
   "dependencies": {
-    "detox": "20.36.4",
+    "detox": "20.37.0",
     "react-native": "^0.78.2"
   },
   "devDependencies": {
