@@ -31,6 +31,6 @@
   "devDependencies": {
     "codeceptjs": "3.7.3",
     "documentation": "14.0.3",
-    "expect": "^29.7.0"
+    "expect": "^30.0.0"
   }
 }
