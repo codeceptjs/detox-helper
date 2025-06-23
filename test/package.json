@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.4",
-    "expect": "^29.7.0",
+    "expect": "^30.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
