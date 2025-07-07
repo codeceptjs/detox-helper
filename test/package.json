@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@codeceptjs/expect-helper": "^1.0.1",
-    "@react-native/metro-config": "^0.78.2",
+    "@react-native/metro-config": "^0.80.1",
     "codeceptjs": "3.7.3",
     "detox": "20.36.4",
     "metro-react-native-babel-preset": "^0.77.0",
