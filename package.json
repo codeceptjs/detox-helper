@@ -1,6 +1,6 @@
 {
   "name": "@codeceptjs/detox-helper",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "Detox helper for CodeceptJS",
   "main": "Detox.js",
   "scripts": {
