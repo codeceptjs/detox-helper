@@ -12,7 +12,7 @@
     "@codeceptjs/expect-helper": "^1.0.1",
     "@react-native/metro-config": "^0.81.1",
     "codeceptjs": "3.7.5",
-    "detox": "20.41.3",
+    "detox": "20.41.1",
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "^19.0",
     "react-native": "^0.81.1"
@@ -22,9 +22,6 @@
     "expect": "^29.7.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
-  },
-  "overrides": {
-    "tmp": "0.2.5"
   },
   "detox": {
     "logger": {
