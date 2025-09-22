@@ -38,7 +38,7 @@ jobs:
           HOMEBREW_NO_INSTALL_CLEANUP: 1
 
       - name: Detox test
-        run: cd test && npx playwright install && npm i --force && CONF="ios.sim.release" npm test
+        run: cd test && npm i --force && npx playwright install && CONF="ios.sim.release" npm test
 
       - name: Upload artifacts
         if: failure()
