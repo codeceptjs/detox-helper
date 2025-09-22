@@ -11,7 +11,7 @@
   "dependencies": {
     "@codeceptjs/expect-helper": "^1.0.1",
     "@react-native/metro-config": "^0.81.1",
-    "codeceptjs": "3.7.4",
+    "codeceptjs": "3.7.5",
     "detox": "20.41.3",
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "^19.0",
