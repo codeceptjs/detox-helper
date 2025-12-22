@@ -15,7 +15,7 @@
     "detox": "20.46.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "^19.0",
-    "react-native": "^0.82.1"
+    "react-native": "^0.83.1"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
