@@ -28,7 +28,7 @@
     "react-native": "^0.82.1"
   },
   "devDependencies": {
-    "codeceptjs": "3.7.5",
+    "codeceptjs": "3.7.6",
     "documentation": "14.0.3",
     "expect": "^30.0.5"
   }
